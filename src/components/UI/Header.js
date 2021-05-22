@@ -4,7 +4,6 @@ import {
     Dimensions,
     View,
     TouchableOpacity,
-    Text
 } from 'react-native';
 // components
 import CustomText from "./CustomText";
@@ -12,7 +11,7 @@ import { HeaderBottom } from "./HeaderBottomSeperator";
 import { AntDesign } from "@expo/vector-icons";
 
 // CONSTANTS
-const { width, height } = Dimensions.get("screen");
+const { height } = Dimensions.get("screen");
 
 export const Header = ({ navigation, text, showGoBackButton }) => {
     return (

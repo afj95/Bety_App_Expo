@@ -4,11 +4,13 @@ import {
     Dimensions,
     FlatList,
     Animated,
+    TouchableOpacity,
+    Text,
 } from "react-native";
 // import Animated from 'react-native-reanimated';
 // Components
-import { Header } from "../../components/UI/Header";
-import { HeaderTest, HomeItem } from "./components"
+import { Header } from "./components";
+import { HomeItem } from "./components"
 // Fake data
 import { homes } from "../../fakeData/";
 
@@ -16,20 +18,20 @@ const { height } = Dimensions.get('window');
 
 export const HomeScreen = ({ navigation }) => {
   const scrollY = new Animated.Value(0);
-  const diffClamp = Animated.diffClamp(scrollY, 0, 90);
+  const diffClamp = Animated.diffClamp(scrollY, 0, 140);
   const translateY = diffClamp.interpolate({
-    inputRange: [0, 70],
+    inputRange: [0, 120],
     outputRange: [0, -70]
   })
   return (
     <View style={{ flex: 1 }}>
-    <Animated.View style={{
-      transform: [{translateY: translateY}],
-      elevation: 5,
-      zIndex: 100
-    }}>
-      <Header navigation={navigation} text={'Homes'} />
-    </Animated.View>
+      <Animated.View style={{
+        transform: [{translateY: translateY}],
+        elevation: 5,
+        zIndex: 100
+      }}>
+        <Header navigation={navigation} text={'homeScreen'} />
+      </Animated.View>
 
       {/* Get homes from API */}
       <FlatList

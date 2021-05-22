@@ -4,7 +4,7 @@ import {
     View,
     TouchableOpacity,
 } from 'react-native';
-import { MaterialIcons } from "@expo/vector-icons";
+import { MaterialIcons, Entypo } from "@expo/vector-icons";
 
 import CustomText from '../../../components/UI/CustomText';
 import moment from "moment";
@@ -22,16 +22,20 @@ export const HomeItem = ({ home }) => {
             })}>
             <View style={styles.nameContainer}>
                 <CustomText style={{ fontSize: 18, fontWeight: 'bold' }} text={home.name}/>
-                {/* <CustomText style={{ fontSize: 18, fontWeight: 'bold' }} children={home.name}/> */}
-                {/* <CustomText style={{ fontSize: 18, fontWeight: 'bold' }}>{home.name}</CustomText> */}
             </View>
             <View style={styles.detailsContainer}>
                 <View style={{ width: '50%', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start'}}>
                     <CustomText style={{ fontSize: 10 }} text={moment(home.created).format("D MMM  YYYY, h:mm a ")}/>
                 </View>
-                <View style={{ width: '50%', flexDirection: 'row-reverse', alignItems: 'center', justifyContent: 'flex-start'}}>
-                    <MaterialIcons name={'groups'} size={18}/>
-                    <CustomText style={{ fontSize: 10, paddingHorizontal: 10 }} text={1}/>
+                <View>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start'}}>
+                        <CustomText style={{ fontSize: 10, paddingHorizontal: 10 }} text={home.stuffs.members || '1'}/>
+                        <MaterialIcons name={'groups'} size={18}/>
+                    </View>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start'}}>
+                        <CustomText style={{ fontSize: 10, paddingHorizontal: 10 }} text={home.stuffs.length || '0'}/>
+                        <Entypo name={'shopping-cart'} size={18} />
+                    </View>
                 </View>
             </View>
         </TouchableOpacity>
@@ -51,7 +55,7 @@ const styles = StyleSheet.create({
         height: 90,
         elevation: 4,
     },
-    nameContainer: {       
+    nameContainer: {
         marginHorizontal: 20,
         width: '100%',
         height: '50%',

@@ -13,6 +13,8 @@ import { HomeScreen } from '../screens/HomeScreen';
 import { ProfileScreen } from '../screens/ProfileScreen';
 import { StuffScreen } from '../screens/StuffScreen';
 import { EditProfileScreen } from '../screens/EditProfileScreen';
+import CustomText from '../components/UI/CustomText';
+import Colors from '../utils/Colors';
 
 const StuffStuck = createStackNavigator();
 const StuffStuckScreen = () => (
@@ -48,7 +50,6 @@ export const HomeStackScreen = () => (
   </HomeStack.Navigator>
 );
 
-// const Tab = createMaterialBottomTabNavigator();
 const Tab = createBottomTabNavigator();
 export const TabScreen = () => {
   return (
@@ -78,18 +79,18 @@ export const TabScreen = () => {
       
       <Tab.Screen
         name='HomeTab'
-        // component={HomeStackScreen}
         component={HomeScreen}
-        // options={({ route }) => ({
-        //   tabBarVisible: getTabBarVisiblilty(route)
-        // }) }
+        options={() => ({
+          tabBarLabel: ({focused}) => <CustomText style={{color: focused? 'blue':'black', fontSize: 12}} text={'homeTab'} />
+        })}
 
       />
       <Tab.Screen
         name='ProfileTab'
         component={ProfileStuckScreen}
         options={({ route }) => ({
-          tabBarVisible: getFocusedRouteNameFromRoute(route) !== 'Edit'
+          tabBarVisible: getFocusedRouteNameFromRoute(route) !== 'Edit',
+          tabBarLabel: ({focused}) => <CustomText style={{color: focused? 'blue':'black', fontSize: 12}} text={'profileTab'} />
         }) }
       />
     </Tab.Navigator>

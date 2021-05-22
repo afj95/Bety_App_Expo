@@ -51,6 +51,7 @@ export const ProfileBody = () => {
                         <Text>***************</Text>
                         <View/>
                     </View>
+                    {/* TODO: change language of app here */}
                     <View style={styles.detailsContainer}>
                         <CustomText style={{ textDecorationLine: 'underline', fontWeight: 'bold'}} text={'language:'}/>
                         <CustomText text={'English'}/>

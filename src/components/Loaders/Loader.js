@@ -4,15 +4,15 @@ import { ActivityIndicator } from "react-native-paper";
 
 const { width, height } = Dimensions.get("window");
 
-const Loader = () => {
+const Loader = (props) => {
   return (
     <View
       style={{
         position: "absolute",
         flex: 1,
         width,
-        height,
-        backgroundColor: "rgba(128, 129, 130,0.5)",
+        height: props.height || height,
+        // backgroundColor: props.bg || "rgba(128, 129, 130, 0.2)",
         zIndex: 1001,
         justifyContent: "center",
       }}

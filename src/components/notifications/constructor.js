@@ -4,7 +4,7 @@ import * as Notifications from 'expo-notifications';
 
 // TODO: retest the notifications
 
-Notificationsset.setNotificationHandler({
+Notifications.setNotificationHandler({
   handleNotification: async () => ({
     shouldShowAlert: true,
     shouldPlaySound: false,

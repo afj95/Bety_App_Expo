@@ -4,13 +4,13 @@ import {
     View,
     TextInput,
     TouchableOpacity,
-    Keyboard
+    Keyboard,
+    ActivityIndicator
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
-export const Footer = () => {
+export const Footer = ({ isLoading, setIsLoading }) => {
     const [value, onChangeText] = React.useState('');
-    const [buttons, showButtons] = React.useState(false);
     let textInputRef = null;
 
     React.useEffect(() => {
@@ -24,13 +24,16 @@ export const Footer = () => {
         };
     }, []);
 
-    const _keyboardDidShow = () => {
-        showButtons(true);
-    };
+    const _keyboardDidShow = () => {};
     
-      const _keyboardDidHide = () => {
-        showButtons(false);
-    };
+    const _keyboardDidHide = () => {};
+
+    const _addNewItem = () => {
+        setIsLoading(true);
+        setTimeout(() => {
+            setIsLoading(false);
+        }, 1500)
+    }
 
     return (
         <View style={styles.textInputContainer}>
@@ -41,9 +44,14 @@ export const Footer = () => {
                 placeholder={'Add item you want to buy...'}
                 onSubmitEditing={Keyboard.dismiss}
                 value={value}
+                editable={!isLoading}
             />
-            <TouchableOpacity onPress={() => { textInputRef.clear() } }>
-                <Ionicons name={'add-circle'} size={40} color={'#4d4dff'} />
+            <TouchableOpacity style={styles.addStuff} onPress={() => _addNewItem() }>
+                {isLoading ?
+                <ActivityIndicator size={'small'} color={'white'} />
+                :
+                <Ionicons name={'add'} size={30} color={'#fff'} />
+                }
             </TouchableOpacity>
         </View>
     )
@@ -69,5 +77,13 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: '#ddd',
         backgroundColor: '#fff'
+    },
+    addStuff: {
+        width: 32,
+        height: 32,
+        borderRadius: 20,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#4d4dff'
     },
 })

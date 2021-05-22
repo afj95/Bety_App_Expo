@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { View } from 'react-native';
 // components
 import { Header, Body, Footer } from "./components";
 
 export const StuffScreen = (params) => {
+    const [isLoading, setIsLoading] = useState(false);
     return (
         <>
             <Header
@@ -12,7 +13,7 @@ export const StuffScreen = (params) => {
             />
             <Body />
             <View style={{ marginTop: 5 }} />
-            <Footer />
+            <Footer isLoading={isLoading} setIsLoading={setIsLoading} />
         </>
     )
 }

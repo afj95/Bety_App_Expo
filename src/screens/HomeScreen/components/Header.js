@@ -3,37 +3,35 @@ import {
     StyleSheet,
     Dimensions,
     View,
-    TouchableOpacity,
-    Text
 } from 'react-native';
 // components
 import CustomText from "../../../components/UI/CustomText";
 import { HeaderBottom } from "../../../components/UI/HeaderBottomSeperator";
-import { Feather } from "@expo/vector-icons";
+import { AddHome } from './AddHome';
 
 // CONSTANTS
-const { width, heigth } = Dimensions.get("screen");
+const { height } = Dimensions.get("screen");
 
-export const Header = ({ navigation }) => {
+export const Header = ({ text }) => {
     return (
-        <>
-            <View style={styles.headerContainer}>
-                <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
-                    {/* <Feather name={'align-justify'} size={25} color={'black'} /> */}
-                </TouchableOpacity>
-                <CustomText style={{ fontSize: 25, fontWeight: 'bold' }} text={'Homes'}/>
-                <View/>
+        <View>
+            <View style={{...styles.headerContainer, paddingTop: height > 600 ? 20 : 10, justifyContent: 'space-between',}}>
+                <View />
+                <View />
+                <CustomText style={{ fontSize: 20, fontWeight: 'bold' }} text={text}/>
+                <AddHome/>
             </View>
             <HeaderBottom />
-        </>
-    )
-    
+        </View>
+    )   
 }
 
 const styles = StyleSheet.create({
     headerContainer: {
         position: 'absolute',
-        width,
+        top: 0,
+        left: 0,
+        right: 0,
         height: 70,
         paddingHorizontal: 10,
         borderBottomEndRadius: 10,
@@ -42,6 +40,5 @@ const styles = StyleSheet.create({
         elevation: 4,
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-between',
     },
 })

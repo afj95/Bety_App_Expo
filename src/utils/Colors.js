@@ -1,4 +1,5 @@
 export default {
     text: '#000',
-    bg: '#fff'
+    bg: '#fff',
+    buttons: '#000'
 }
