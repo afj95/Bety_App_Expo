@@ -12,9 +12,12 @@ import FlashMessage from 'react-native-flash-message';
 // Navigator
 import { NavigationContainer } from '@react-navigation/native';
 import { Host } from 'react-native-portalize';
+import * as Updates from 'expo-updates';
 import { navigationRef } from './src/navigation/RootNavigation';
 import { HomeStackScreen } from './src/navigation/StoneNavigator';
 import i18n from "./src/i18next";
+import Loader from "./src/components/Loaders/Loader";
+import { StatusBar } from "expo-status-bar";
 // import AppLoading from "expo-app-loading";
 
 const rootReducer = combineReducers({
@@ -46,22 +49,28 @@ export default function App() {
 
             // RN won't set the layout direction if we
             // don't restart the app's JavaScript.
-            // Updates.reloadFromCache();
+            Updates.reloadAsync();
         }
 
         setIsI18nInitialized(true)
     })
     .catch((error) => console.warn(error));
-  })
+  }, [])
 
-  return (
-    <Provider store={store}>
-      <NavigationContainer ref={navigationRef}>
-        <Host>
-          <HomeStackScreen />
-          <FlashMessage position={'top'} />
-        </Host>
-      </NavigationContainer>
-    </Provider>
-  );
+  if(!isI18nInitialized) {
+    return <Loader />
+  } else {
+    return (
+      <Provider store={store}>
+        <NavigationContainer ref={navigationRef}>
+          <Host>
+            {/* <NotificationsConstructor /> */}
+            <StatusBar style={'auto'} />
+            <HomeStackScreen />
+            <FlashMessage position={'top'} />
+          </Host>
+        </NavigationContainer>
+      </Provider>
+    );
+  }
 }

@@ -1,3 +1,5 @@
+// TODO: DELETE IT NOT USED ANYMORE
+
 import React from 'react'
 import {
     StyleSheet,
@@ -11,7 +13,7 @@ import { Ionicons } from "@expo/vector-icons";
 import CustomText from "../../../components/UI/CustomText";
 import { HeaderBottom } from "../../../components/UI/HeaderBottomSeperator";
 // CONSTANTS
-const { width, heigth } = Dimensions.get("screen");
+const { width } = Dimensions.get("screen");
 
 export const Header = ({ name, navigation }) => (
     <>

@@ -1,20 +1,14 @@
 import React from 'react';
 import {
-    View,
-    Dimensions,
-    FlatList,
-    Animated,
-    TouchableOpacity,
-    Text,
+  View,
+  FlatList,
+  Animated,
 } from "react-native";
-// import Animated from 'react-native-reanimated';
 // Components
 import { Header } from "./components";
 import { HomeItem } from "./components"
 // Fake data
 import { homes } from "../../fakeData/";
-
-const { height } = Dimensions.get('window');
 
 export const HomeScreen = ({ navigation }) => {
   const scrollY = new Animated.Value(0);

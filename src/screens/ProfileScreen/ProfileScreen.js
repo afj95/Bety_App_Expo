@@ -9,7 +9,7 @@ export const ProfileScreen = ({ navigation }) => {
 
     return (
         <View style={{ flex: 1 }}>
-            <Header navigation={navigation} text={'Profile'} />
+            <Header navigation={navigation} text={'profileTab'} />
             <ProfileBody />
         </View>
     );

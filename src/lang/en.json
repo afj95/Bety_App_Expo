@@ -3,6 +3,26 @@
         "addHome": "Add new home",
         "homeTab": "Home",
         "profileTab": "Profile",
-        "homeScreen": "Homes"
+        "homeScreen": "Homes",
+        "editProfile": "Edit Profile",
+        "name": "Name",
+        "email": "Email",
+        "password": "Password",
+        "language": "Language",
+        "nameGuide": "The name must be within 3 - 10 characters",
+        "updateName": "Update Name",
+        "nameUpdated": "The name has been updated",
+        "updateEmail": "Update Email",
+        "emailUpdated": "The email has been updated successfully",
+        "UpdatePass": "Update password",
+        "passUpdated": "Password has been updated",
+        "updateLang": "Update language",
+        "langUpdated": "The langugae has been updated successfully",
+        "ar": "العربية",
+        "en": "English",
+        "deleteHome": "Delete this home",
+        "deleteDesc": "You can't undo this action",
+        "homeInfo": "Show home info",
+        "infoDesc": "Show the home details"
     }
 }

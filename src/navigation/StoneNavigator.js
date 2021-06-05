@@ -15,6 +15,7 @@ import { StuffScreen } from '../screens/StuffScreen';
 import { EditProfileScreen } from '../screens/EditProfileScreen';
 import CustomText from '../components/UI/CustomText';
 import Colors from '../utils/Colors';
+import EditScreen from '../screens/EditProfileScreen/EditScreen';
 
 const StuffStuck = createStackNavigator();
 const StuffStuckScreen = () => (
@@ -32,9 +33,11 @@ const ProfileStuckScreen = () => (
         screenOptions={{
             headerShown: false,
         }}
+        // mode={'modal'}
     >
         <ProfileStuck.Screen name="Profile" component={ProfileScreen} />
         <ProfileStuck.Screen name="Edit"    component={EditProfileScreen} />
+        <ProfileStuck.Screen name="EditScreen"    component={EditScreen} />
     </ProfileStuck.Navigator>
 )
 
@@ -89,7 +92,7 @@ export const TabScreen = () => {
         name='ProfileTab'
         component={ProfileStuckScreen}
         options={({ route }) => ({
-          tabBarVisible: getFocusedRouteNameFromRoute(route) !== 'Edit',
+          tabBarVisible: getTabVisibility(route),
           tabBarLabel: ({focused}) => <CustomText style={{color: focused? 'blue':'black', fontSize: 12}} text={'profileTab'} />
         }) }
       />
@@ -150,3 +153,15 @@ export const TabScreen = () => {
 //     </Drawer.Navigator>
 //   )
 // }
+
+const getTabVisibility = (route) => {
+  const routeName = getFocusedRouteNameFromRoute(route);
+
+  switch(routeName) {
+    case 'Edit':
+      return false;
+    case 'EditScreen':
+      return false;
+    default: return true;
+  }
+}

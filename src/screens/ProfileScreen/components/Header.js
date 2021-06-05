@@ -1,3 +1,5 @@
+// TODO: DELETE IT NOT USED ANYMORE
+
 import React from 'react'
 import {
     StyleSheet,

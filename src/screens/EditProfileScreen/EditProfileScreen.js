@@ -1,24 +1,19 @@
 import React from 'react'
-import {
-    View,
-    Text,
-    TouchableOpacity,
-    Dimensions
-} from 'react-native'
-import { AntDesign } from "@expo/vector-icons";
-import { goBack } from "../../navigation/RootNavigation";
+import { View } from 'react-native';
 import { Header } from "../../components/UI/Header";
-
-const { width, height } = Dimensions.get("screen");
+import Colors from '../../utils/Colors';
+// Components
+import { Body } from './components';
 
 export const EditProfileScreen = ({ navigation }) => {
     return (
-        <View>
-            <Header navigation={navigation} text={'Edit Profile'} showGoBackButton={true} />
-            {/* 
-                name, email, password, language
-            */}
-            
+        <View style={{ height: '100%', backgroundColor: '#fff' }}>
+            <Header
+                navigation={navigation}
+                text={'editProfile'}
+                showGoBackButton={true}
+            />
+            <Body />
         </View>
-    )
-}
+    );
+};

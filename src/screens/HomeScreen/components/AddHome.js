@@ -96,9 +96,11 @@ export const AddHome = () => {
                             {/* Error message will be shown if TextInput is empty */}
                             {error ? <CustomText text={'Home name should not be an empty string'} style={styles.errorMessage} /> : null}
                             {/* TODO: add members to the home */}
-                            <CustomText
-                                style={{ textAlign: 'center', marginTop: 10, color: 'gray', fontSize: 12 }}
-                                text={'Add home name\nyou want to show in your homes list'} />
+                            <View style={{ alignItems: 'center' }}>
+                                <CustomText
+                                    style={{ textAlign: 'center', marginTop: 10, color: 'gray', fontSize: 12 }}
+                                    text={'Add home name\nyou want to show in your homes list'} />
+                            </View>
                         </View>
                         <TouchableOpacity disabled={isLoading} onPress={_addNewHome} style={styles.submit}>
                             <CustomText style={{ color: 'white', fontSize: 22 }} text={'Add new home'} />
