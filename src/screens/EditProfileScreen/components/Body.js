@@ -27,7 +27,8 @@ export const Body = () => {
                 <EditContainer text={'name'} data={'your name'} separator={true} />
                 <EditContainer text={'email'} data={'example@example.com'} separator={true} />
                 <EditContainer text={'password'} data={'password'} separator={true} />
-                <EditContainer text={'language'} data={'العربية'} separator={false} />
+                <EditContainer text={'language'} data={'العربية'} separator={true} />
+                <EditContainer text={'location'} data={'saudi'} separator={false} />
             </View>
         </ScrollView>
     );

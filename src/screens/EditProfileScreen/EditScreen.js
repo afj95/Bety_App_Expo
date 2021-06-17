@@ -4,15 +4,17 @@ import {
     StyleSheet,
     TouchableOpacity,
     ActivityIndicator,
-    Modal, Text, Pressable
 } from 'react-native';
+// main components
 import CustomText from '../../components/UI/CustomText';
+import Loader from '../../components/Loaders/Loader';
 import { TextInput } from 'react-native-paper';
 import Colors from '../../utils/Colors';
 import { t } from '../../i18next';
 import { Entypo, MaterialIcons, Fontisto } from '@expo/vector-icons';
-import { Header } from './components/Header';
+import { Header, CustomMap } from './components';
 import { showMessage } from 'react-native-flash-message';
+// import MapView, { Marker } from 'react-native-maps';
 
 export default class EditScreen extends React.Component {
     constructor(props) {
@@ -23,11 +25,28 @@ export default class EditScreen extends React.Component {
             email: this.props.route.params.data,
             password: this.props.route.params.data,
             showPass: false,
-            ARLang: false,
-
-            modalVisible: false
+            ARLang: false, // language
+            latitude: 0,
+            longitude: 0,
         }
     };
+
+    componentDidMount() {
+        navigator.geolocation.getCurrentPosition(
+            position => {
+                this.setState({
+                    latitude: position.coords.latitude,
+                    longitude: position.coords.longitude
+                });
+            },
+            error => alert(error.message),
+            {
+                enableHighAccuracy: true,
+                timeout: 20000,
+                // maximumAge: 1000
+            }
+        );
+    }
 
     render() {
         const { text } = this.props.route.params;
@@ -236,6 +255,19 @@ export default class EditScreen extends React.Component {
                         }
                     </View>
                 );
+            case 'location':
+                let { latitude, longitude } = this.state;
+                return (
+                    <View style={styles.container}>
+                        <Header text={text} navigation={navigation} />
+                        {latitude == 0 ? <Loader /> :
+                            <CustomMap
+                                latitude={latitude}
+                                longitude={longitude}
+                            />
+                        }
+                    </View>
+                );
         }
     };
     validate = (text) => {
@@ -267,54 +299,4 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderRadius: 10
     },
-    input: {
-        height: 40,
-        margin: 12,
-        borderWidth: 1,
-    },
-
-    centeredView: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        marginTop: 22
-      },
-      modalView: {
-        // margin: 20,
-        height: '100%',
-        width: '100%',
-        backgroundColor: "white",
-        borderWidth: 1,
-        borderRadius: 20,
-        // padding: 35,
-        alignItems: "center",
-        shadowColor: "#000",
-        shadowOffset: {
-          width: 0,
-          height: 2
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 4,
-        elevation: 5
-      },
-      button: {
-        borderRadius: 20,
-        padding: 10,
-        elevation: 2
-      },
-      buttonOpen: {
-        backgroundColor: "#F194FF",
-      },
-      buttonClose: {
-        backgroundColor: "#2196F3",
-      },
-      textStyle: {
-        color: "white",
-        fontWeight: "bold",
-        textAlign: "center"
-      },
-      modalText: {
-        marginBottom: 15,
-        textAlign: "center"
-      }
 })

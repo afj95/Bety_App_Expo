@@ -9,6 +9,7 @@
         "email": "Email",
         "password": "Password",
         "language": "Language",
+        "location": "Locations",
         "nameGuide": "The name must be within 3 - 10 characters",
         "updateName": "Update Name",
         "nameUpdated": "The name has been updated",
