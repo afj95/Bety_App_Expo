@@ -1,3 +1,5 @@
+// TODO: Show real user adata
+
 import React from 'react'
 import {
     StyleSheet,
@@ -6,56 +8,59 @@ import {
     Image,
     Dimensions,
     ScrollView,
-    FlatList,
-    TouchableOpacity
+    TouchableOpacity,
+    RefreshControl
 } from "react-native";
 import { navigate } from '../../../navigation/RootNavigation';
 import { Feather } from '@expo/vector-icons';
-import CustomText from '../../../components/UI/CustomText';
+import MyText from '../../../components/UI/MyText';
+import i18n from '../../../i18next';
 // modal 
 // import { Edit } from './Edit';
+// fakeData
+import { user } from '../../../fakeData';
 
 const { height, width } = Dimensions.get('screen');
 
 export const ProfileBody = () => {
     return (
         <View style={styles.container}>
-            <Image source={{ uri : 'https://picsum.photos/205/731'}} style={{ width, height: 205 }} />
+            <Image source={{ uri : user.coverImage}} style={{ width, height: 205 }} />
             <View style={styles.nameAndImageContainer}>
                 <View style={styles.editContainer}>
-                    <TouchableOpacity onPress={() => navigate('Edit', {sceen: 'EditScreen'})}>
+                    <TouchableOpacity onPress={() => navigate('Edit', { user: user, lang: i18n.dir })}>
                         <Feather name={'edit'} size={20} color={'white'} />
                     </TouchableOpacity>
                 </View>
                 
                 <View style={styles.imageContainer}>
                     <Image
-                        source={{ uri : 'https://picsum.photos/90/90'}}
+                        source={{ uri : user.profileImage}}
                         style={{ width: 90, height: 90, borderRadius: 45 }} />
                 </View>
                 <View style={styles.nameContainer}>
-                    <Text>Ahmad Jamous</Text>
+                    <MyText text={user.name} />
                 </View>
             </View>
             <ScrollView
-                style={{ paddingTop: 10, width: '95%' }}
+                style={{ flex: 1, width: '100%', marginTop: 110, paddingBottom: 5, }}
                 contentContainerStyle={{ alignItems: 'center' }}
-                showsHorizontalScrollIndicator={false}
                 showsVerticalScrollIndicator={false}>
                 <View style={styles.detailsContainer}>
-                    <CustomText style={{ textDecorationLine: 'underline', fontWeight: 'bold'}} text={'email'}/>
-                    <CustomText text={'Afjamous.95@gmail.com'}/>
-                    <View/>
+                    <MyText style={{ textDecorationLine: 'underline', fontWeight: 'bold'}} text={'email'}/>
+                    <MyText text={user.email}/>
                 </View>
                 <View style={styles.detailsContainer}>
-                    <CustomText style={{ textDecorationLine: 'underline', fontWeight: 'bold'}} text={'password'}/>
-                    <Text>***************</Text>
-                    <View/>
+                    <MyText style={{ textDecorationLine: 'underline', fontWeight: 'bold'}} text={'password'}/>
+                    <MyText hide={true} text={user.password} />
                 </View>
                 <View style={styles.detailsContainer}>
-                    <CustomText style={{ textDecorationLine: 'underline', fontWeight: 'bold'}} text={'language'}/>
-                    <CustomText text={'English'}/>
-                    <View />
+                    <MyText style={{ textDecorationLine: 'underline', fontWeight: 'bold'}} text={'language'}/>
+                    <MyText text={i18n.dir.toUpperCase() === 'RTL' ? 'العربية' : 'English'}/>
+                </View>
+                <View style={styles.detailsContainer}>
+                    <MyText style={{ textDecorationLine: 'underline', fontWeight: 'bold'}} text={'location'}/>
+                    <MyText text={user.location}/>
                 </View>
             </ScrollView>
         </View>
@@ -64,8 +69,9 @@ export const ProfileBody = () => {
 
 const styles = StyleSheet.create({
     container: {
-        height: '100%',
+        flex: 1,
         alignItems: 'center',
+        paddingHorizontal: 8,
     },
     editContainer: {
         marginTop: -15,
@@ -77,14 +83,16 @@ const styles = StyleSheet.create({
     },
     nameAndImageContainer: {
         height: 205,
-        width: width / 1.08,
-        marginTop: -(210 / 2.8),
-        marginBottom: 5,
+        width: '100%',
+        // marginTop: -(210 / 2),
+        // marginBottom: 5,
         backgroundColor: '#0B1B32',
-        borderRadius: 20,
+        borderRadius: 8,
         elevation: 10,
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        position: 'absolute',
+        top: 105
     },
     imageContainer: {
         borderWidth: 1,
@@ -106,14 +114,14 @@ const styles = StyleSheet.create({
     },
     detailsContainer: {
         height: 60,
-        width: width / 1.08,
+        width: '100%',
         backgroundColor: '#fff',
         justifyContent: 'space-between',
         alignItems: 'center',
         flexDirection: 'row',
-        marginBottom: 10,
-        paddingHorizontal: 25,
-        borderRadius: 20,
+        marginBottom: 2,
+        paddingHorizontal: 20,
+        borderRadius: 4,
         elevation: 2,
     },
 })

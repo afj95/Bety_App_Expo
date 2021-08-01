@@ -13,7 +13,7 @@ import { HomeScreen } from '../screens/HomeScreen';
 import { ProfileScreen } from '../screens/ProfileScreen';
 import { StuffScreen } from '../screens/StuffScreen';
 import { EditProfileScreen } from '../screens/EditProfileScreen';
-import CustomText from '../components/UI/CustomText';
+import MyText from '../components/UI/MyText';
 import Colors from '../utils/Colors';
 import EditScreen from '../screens/EditProfileScreen/EditScreen';
 
@@ -71,20 +71,13 @@ export const TabScreen = () => {
           return <AntDesign name={iconName} size={23} color={color} />;
         },
       })}
-      barStyle={{
-          backgroundColor: '#fff',
-          overflow: 'hidden',
-          height: 50,
-          justifyContent: 'center',
-      }}
-      activeColor={'blue'}
-      inactiveColor={'black'}>
+      >
       
       <Tab.Screen
         name='HomeTab'
         component={HomeScreen}
         options={() => ({
-          tabBarLabel: ({focused}) => <CustomText style={{color: focused? 'blue':'black', fontSize: 12}} text={'homeTab'} />
+          tabBarLabel: ({focused}) => <MyText style={{color: focused? 'blue':'black', fontSize: 12}} text={'homeTab'} />
         })}
 
       />
@@ -93,7 +86,7 @@ export const TabScreen = () => {
         component={ProfileStuckScreen}
         options={({ route }) => ({
           tabBarVisible: getTabVisibility(route),
-          tabBarLabel: ({focused}) => <CustomText style={{color: focused? 'blue':'black', fontSize: 12}} text={'profileTab'} />
+          tabBarLabel: ({focused}) => <MyText style={{color: focused? 'blue':'black', fontSize: 12}} text={'profileTab'} />
         }) }
       />
     </Tab.Navigator>

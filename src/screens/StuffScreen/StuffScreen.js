@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { View } from 'react-native';
-import { Header } from '../../components/UI/Header';
+import { MainHeader } from '../../components/UI/MainHeader';
 // components
 import { Body, Footer } from "./components";
 
@@ -13,7 +13,7 @@ export const StuffScreen = (params) => {
                 navigation={params.navigation}
                 name={params.route.params.home}
             /> */}
-            <Header
+            <MainHeader
                 navigation={params.navigation}
                 text={params.route.params.home}
                 showGoBackButton={true}

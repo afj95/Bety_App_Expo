@@ -7,13 +7,15 @@ import {
 } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler';
 import { MaterialIcons } from '@expo/vector-icons';
-import CustomText from '../../../components/UI/CustomText';
+import MyText from '../../../components/UI/MyText';
 import i18n from '../../../i18next';
 import { EditContainer } from './EditContainer';
+// fakeData
+import { user } from '../../../fakeData';
 
 const { width, height } = Dimensions.get("screen");
 
-export const Body = () => {
+export const Body = ({ lang, user }) => {
     return (
         <ScrollView
             showsVerticalScrollIndicator={false}
@@ -24,11 +26,11 @@ export const Body = () => {
             </View>
             <View style={styles.editsContainer}>
                 {/* TODO: User details here */}
-                <EditContainer text={'name'} data={'your name'} separator={true} />
-                <EditContainer text={'email'} data={'example@example.com'} separator={true} />
-                <EditContainer text={'password'} data={'password'} separator={true} />
-                <EditContainer text={'language'} data={'العربية'} separator={true} />
-                <EditContainer text={'location'} data={'saudi'} separator={false} />
+                <EditContainer text={'name'} data={user.name} separator={true} />
+                <EditContainer text={'email'} data={user.email} separator={true} />
+                <EditContainer text={'password'} data={user.password} separator={true} hide={true} />
+                <EditContainer text={'language'} data={lang == 'RTL' ? 'العربية' : 'English'} separator={true} />
+                <EditContainer text={'location'} data={user.location} separator={false} />
             </View>
         </ScrollView>
     );

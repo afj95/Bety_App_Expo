@@ -14,7 +14,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { Host } from 'react-native-portalize';
 import * as Updates from 'expo-updates';
 import { navigationRef } from './src/navigation/RootNavigation';
-import { HomeStackScreen } from './src/navigation/StoneNavigator';
+import { HomeStackScreen } from './src/navigation/MainNavigator';
 import i18n from "./src/i18next";
 import Loader from "./src/components/Loaders/Loader";
 import { StatusBar } from "expo-status-bar";
@@ -35,27 +35,39 @@ const store = createStore(
 export default function App() {
   const [isI18nInitialized, setIsI18nInitialized] = useState(false);
 
+  // useEffect(() => {
+  //   i18n.init()
+  //     .then(() => {
+  //       const RNDir = RNI18nManager.isRTL ? 'RTL' : 'LTR';
+
+  //       // RN doesn't always correctly identify native
+  //       // locale direction, so we force it here.
+  //       if (i18n.dir !== RNDir) {
+  //           const isLocaleRTL = i18n.dir === 'RTL';
+
+  //           RNI18nManager.forceRTL(isLocaleRTL);
+
+  //           // RN won't set the layout direction if we
+  //           // don't restart the app's JavaScript.
+  //           Updates.reloadAsync();
+  //       }
+
+  //       setIsI18nInitialized(true)
+  //   })
+  //   .catch((error) => console.warn(error));
+  // }, [])
+
   useEffect(() => {
+    // Initializing i18next library for localization.
     i18n.init()
-      .then(() => {
-        const RNDir = RNI18nManager.isRTL ? 'RTL' : 'LTR';
-
-        // RN doesn't always correctly identify native
-        // locale direction, so we force it here.
-        if (i18n.dir !== RNDir) {
-            const isLocaleRTL = i18n.dir === 'RTL';
-
-            RNI18nManager.forceRTL(isLocaleRTL);
-
-            // RN won't set the layout direction if we
-            // don't restart the app's JavaScript.
-            Updates.reloadAsync();
-        }
-
-        setIsI18nInitialized(true)
-    })
-    .catch((error) => console.warn(error));
-  }, [])
+    .then(() => setIsI18nInitialized(true))
+    .catch((error) => {
+      // TODO: Show error message to user.
+      // Restart the app.
+      console.log('Error while initializing i18n ' + error);
+      setIsI18nInitialized(false)
+    });
+  })
 
   if(!isI18nInitialized) {
     return <Loader />

@@ -7,7 +7,7 @@ import {
     View,
 } from 'react-native';
 // components
-import CustomText from "../../../components/UI/CustomText";
+import MyText from "../../../components/UI/MyText";
 import { HeaderBottom } from "../../../components/UI/HeaderBottomSeperator";
 // CONSTANTS
 const { width, heigth } = Dimensions.get("screen");
@@ -16,7 +16,7 @@ export const Header = () => {
     return (
         <>
             <View style={styles.headerContainer}>
-                <CustomText style={{ fontSize: 25, fontWeight: 'bold' }} text={'Profile'} />
+                <MyText style={{ fontSize: 25, fontWeight: 'bold' }} text={'Profile'} />
             </View>
             <HeaderBottom />
         </>

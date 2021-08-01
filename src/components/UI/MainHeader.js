@@ -6,7 +6,7 @@ import {
     TouchableOpacity,
 } from 'react-native';
 // components
-import CustomText from "./CustomText";
+import MyText from "./MyText";
 import { HeaderBottom } from "./HeaderBottomSeperator";
 import { AntDesign } from "@expo/vector-icons";
 import i18n from '../../i18next';
@@ -15,7 +15,7 @@ import Colors from '../../utils/Colors';
 // CONSTANTS
 const { width, height } = Dimensions.get("screen");
 
-export const Header = ({ navigation, text, showGoBackButton }) => {
+export const MainHeader = ({ navigation, text, showGoBackButton }) => {
     return (
         <>
             <View style={{...styles.headerContainer,  justifyContent: showGoBackButton? 'space-between' : 'center',}}>
@@ -25,7 +25,7 @@ export const Header = ({ navigation, text, showGoBackButton }) => {
                     </TouchableOpacity>
                 : <></>
                 }
-                <CustomText style={{ fontSize: 25, fontWeight: 'bold' }} text={text}/>
+                <MyText style={{ fontSize: 25, fontWeight: 'bold' }} text={text}/>
                 <View/>
             </View>
             <HeaderBottom />
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
         right: 0,
         left: 0,
         width,
-        height: 70,
+        height: 80,
         marginBottom: 3,
         flexDirection: 'row',
         justifyContent: 'space-between',

@@ -12,7 +12,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Portal } from "react-native-portalize";
 import { Modalize } from "react-native-modalize";
 import { Ionicons, AntDesign } from "@expo/vector-icons";
-import CustomText from '../../../components/UI/CustomText';
+import MyText from '../../../components/UI/MyText';
 import Colors from '../../../utils/Colors';
 import { showMessage } from 'react-native-flash-message';
 import { t } from '../../../i18next';
@@ -67,14 +67,14 @@ export const AddHome = () => {
         <>
             <TouchableOpacity onPress={_onOpen} style={{ alignItems: 'center', justifyContent: 'space-around' }}>
                 <Ionicons name={'md-add-circle'} size={22} color={Colors.buttons} />
-                <CustomText text={'addHome'} style={{ fontSize: 9, color: Colors.text }}  />
+                <MyText text={'addHome'} style={{ fontSize: 9, color: Colors.text }}  />
             </TouchableOpacity>
             <Portal>
                 <Modalize onClosed={_onClosed} ref={modalizeRef} snapPoint={height - (height / 3)} >
                     <View style={styles.container}>
                         <View>
                             <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
-                                <CustomText text={'Add home name:'} />
+                                <MyText text={'Add home name:'} />
                                 {isLoading ?
                                     <ActivityIndicator size={'small'} color={'black'} />
                                 :
@@ -94,16 +94,16 @@ export const AddHome = () => {
                                 onSubmitEditing={_addNewHome}
                             />
                             {/* Error message will be shown if TextInput is empty */}
-                            {error ? <CustomText text={'Home name should not be an empty string'} style={styles.errorMessage} /> : null}
+                            {error ? <MyText text={'Home name should not be an empty string'} style={styles.errorMessage} /> : null}
                             {/* TODO: add members to the home */}
                             <View style={{ alignItems: 'center' }}>
-                                <CustomText
+                                <MyText
                                     style={{ textAlign: 'center', marginTop: 10, color: 'gray', fontSize: 12 }}
                                     text={'Add home name\nyou want to show in your homes list'} />
                             </View>
                         </View>
                         <TouchableOpacity disabled={isLoading} onPress={_addNewHome} style={styles.submit}>
-                            <CustomText style={{ color: 'white', fontSize: 22 }} text={'Add new home'} />
+                            <MyText style={{ color: 'white', fontSize: 22 }} text={'Add new home'} />
                         </TouchableOpacity>
                     </View>
                 </Modalize>

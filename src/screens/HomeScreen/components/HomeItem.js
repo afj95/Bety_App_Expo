@@ -7,10 +7,11 @@ import {
 } from 'react-native';
 import { MaterialIcons, Entypo, Ionicons } from "@expo/vector-icons";
 
-import CustomText from '../../../components/UI/CustomText';
+import MyText from '../../../components/UI/MyText';
 import moment from "moment";
 // navigate fun ref
 import { navigate } from "../../../navigation/RootNavigation";
+import { schedulePushNotification } from '../../../components/notifications/constructor';
 
 const deleteHome = () => {
     alert('delete')
@@ -26,7 +27,11 @@ export const HomeItem = ({ home }) => {
                 params: {
                     home: home.name
                 }
-            })}>
+            })}
+            // onPress={async () => {
+            //     await schedulePushNotification()
+            // }}
+            >
             <View style={styles.nameContainer}>
                 {/* <Ionicons name={'options'} size={22} onPress={() => console.log('dsdsd')} /> */}
                 <Modal
@@ -46,8 +51,8 @@ export const HomeItem = ({ home }) => {
                                 // TODO: add function for the action
                                 alert(home.name)
                             }} >
-                                <CustomText text={'homeInfo'} />
-                                <CustomText text={'infoDesc'} style={{ color: 'gray', fontSize: 10 }} />
+                                <MyText text={'homeInfo'} />
+                                <MyText text={'infoDesc'} style={{ color: 'gray', fontSize: 10 }} />
                             </TouchableOpacity>
                             <View style={{ width: '100%', alignItems: 'center' }}>
                                 <View style={{ width: '95%', height: 1, backgroundColor: '#cdcdcd' }} />
@@ -57,8 +62,8 @@ export const HomeItem = ({ home }) => {
                                 // Deleting home
                                 deleteHome()
                             }} >
-                                <CustomText text={'deleteHome'} style={{ color: 'red' }} />
-                                <CustomText text={'deleteDesc'} style={{ color: 'gray', fontSize: 10 }} />
+                                <MyText text={'deleteHome'} style={{ color: 'red' }} />
+                                <MyText text={'deleteDesc'} style={{ color: 'gray', fontSize: 10 }} />
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -69,20 +74,20 @@ export const HomeItem = ({ home }) => {
                     style={{ padding: 2.5 }}
                     // showing modal
                     onPress={() => setModalVisible(!modalVisible)} />
-                <CustomText style={{ fontSize: 18, fontWeight: 'bold' }} text={home.name}/>
+                <MyText style={{ fontSize: 18, fontWeight: 'bold' }} text={home.name}/>
                 <View />
             </View>
             <View style={styles.detailsContainer}>
                 <View style={{ width: '50%', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start'}}>
-                    <CustomText style={{ fontSize: 10 }} text={moment(home.created).format("D MMM  YYYY, h:mm a ")}/>
+                    <MyText style={{ fontSize: 10 }} text={moment(home.created).format("D MMM  YYYY, h:mm a ")}/>
                 </View>
                 <View>
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start'}}>
-                        <CustomText style={{ fontSize: 10, paddingHorizontal: 10 }} text={home.stuffs.members || '1'}/>
+                        <MyText style={{ fontSize: 10, paddingHorizontal: 10 }} text={home.stuffs.members || '1'}/>
                         <MaterialIcons name={'groups'} size={18}/>
                     </View>
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start'}}>
-                        <CustomText style={{ fontSize: 10, paddingHorizontal: 10 }} text={home.stuffs.length || '0'}/>
+                        <MyText style={{ fontSize: 10, paddingHorizontal: 10 }} text={home.stuffs.length || '0'}/>
                         <Entypo name={'shopping-cart'} size={18} />
                     </View>
                 </View>

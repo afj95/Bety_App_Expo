@@ -10,7 +10,7 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 
 // components
-import CustomText from "../../../components/UI/CustomText";
+import MyText from "../../../components/UI/MyText";
 import { HeaderBottom } from "../../../components/UI/HeaderBottomSeperator";
 // CONSTANTS
 const { width } = Dimensions.get("screen");
@@ -21,7 +21,7 @@ export const Header = ({ name, navigation }) => (
             <TouchableOpacity onPress={() => navigation.goBack()} >
                 <Ionicons name='ios-arrow-back' size={25} />
             </TouchableOpacity>
-            <CustomText style={{ fontSize: 25, fontWeight: 'bold' }} text={name} />
+            <MyText style={{ fontSize: 25, fontWeight: 'bold' }} text={name} />
             <View/>
         </View>
         <HeaderBottom />

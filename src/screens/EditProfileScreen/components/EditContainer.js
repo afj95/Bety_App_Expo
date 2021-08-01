@@ -5,12 +5,12 @@ import {
     Text,
 } from 'react-native'
 import { MaterialIcons, FontAwesome } from '@expo/vector-icons';
-import CustomText from '../../../components/UI/CustomText';
+import MyText from '../../../components/UI/MyText';
 import i18n, { t } from '../../../i18next';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { navigate } from '../../../navigation/RootNavigation';
 
-export const EditContainer = ({ text, data, separator }) => {
+export const EditContainer = ({ text, data, separator, hide }) => {
     return (
         <View>
         {/* <View style={styles.separator} /> */}
@@ -21,8 +21,8 @@ export const EditContainer = ({ text, data, separator }) => {
                 }}
                 style={styles.container}>
                 <View>
-                    <CustomText text={text} />
-                    <Text style={{ color: 'gray' }} >{data}</Text>
+                    <MyText text={text} />
+                    <MyText style={{ color: 'gray' }} hide={hide}>{data}</MyText>
                 </View>
                 {/* This icon is arrow like google products */}
                 <MaterialIcons name={i18n.locale == 'en' ? 'keyboard-arrow-right' : 'keyboard-arrow-left'} size={22} />
