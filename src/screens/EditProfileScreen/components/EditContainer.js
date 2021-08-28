@@ -17,7 +17,7 @@ export const EditContainer = ({ text, data, separator, hide }) => {
             <TouchableWithoutFeedback
                 onPress={() => {
                     // navigate to settings page
-                    navigate('EditScreen', {text, data})
+                    navigate('Edit', {text, data})
                 }}
                 style={styles.container}>
                 <View>

@@ -107,7 +107,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'flex-end',
         height: 90,
-        elevation: 4,
+        // shadow
+        shadowColor: '#999999',
+        shadowOffset: { width: 1, height: 1 },
+        shadowOpacity: 0.8,
+        shadowRadius: 2,  
+        elevation: 5
     },
     nameContainer: {
         marginHorizontal: 20,

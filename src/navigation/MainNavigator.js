@@ -13,9 +13,21 @@ import { HomeScreen } from '../screens/HomeScreen';
 import { ProfileScreen } from '../screens/ProfileScreen';
 import { StuffScreen } from '../screens/StuffScreen';
 import { EditProfileScreen } from '../screens/EditProfileScreen';
+import EditScreen from '../screens/EditProfileScreen/EditScreen';
+import { LoginScreen } from '../screens/LoginScreen';
 import MyText from '../components/UI/MyText';
 import Colors from '../utils/Colors';
-import EditScreen from '../screens/EditProfileScreen/EditScreen';
+
+const AuthStack = createStackNavigator();
+export const AuthStackScreens = () => (
+  <AuthStack.Navigator
+    screenOptions={{
+      headerShown: false,
+    }}>
+    <AuthStack.Screen name={"Login"} component={LoginScreen} />
+    <AuthStack.Screen name={"Home"} component={HomeStackScreen} />
+  </AuthStack.Navigator>
+)
 
 const StuffStuck = createStackNavigator();
 const StuffStuckScreen = () => (
@@ -36,8 +48,8 @@ const ProfileStuckScreen = () => (
         // mode={'modal'}
     >
         <ProfileStuck.Screen name="Profile" component={ProfileScreen} />
-        <ProfileStuck.Screen name="Edit"    component={EditProfileScreen} />
-        <ProfileStuck.Screen name="EditScreen"    component={EditScreen} />
+        <ProfileStuck.Screen name="EditScreen"    component={EditProfileScreen} />
+        <ProfileStuck.Screen name="Edit"    component={EditScreen} />
     </ProfileStuck.Navigator>
 )
 
@@ -77,7 +89,7 @@ export const TabScreen = () => {
         name='HomeTab'
         component={HomeScreen}
         options={() => ({
-          tabBarLabel: ({focused}) => <MyText style={{color: focused? 'blue':'black', fontSize: 12}} text={'homeTab'} />
+          tabBarLabel: ({focused}) => <MyText style={{color: focused? 'blue':'black', fontSize: 12, marginBottom: 5}} text={'homeTab'} />
         })}
 
       />
@@ -86,7 +98,7 @@ export const TabScreen = () => {
         component={ProfileStuckScreen}
         options={({ route }) => ({
           tabBarVisible: getTabVisibility(route),
-          tabBarLabel: ({focused}) => <MyText style={{color: focused? 'blue':'black', fontSize: 12}} text={'profileTab'} />
+          tabBarLabel: ({focused}) => <MyText style={{color: focused? 'blue':'black', fontSize: 12, marginBottom: 5}} text={'profileTab'} />
         }) }
       />
     </Tab.Navigator>
@@ -153,7 +165,7 @@ const getTabVisibility = (route) => {
   switch(routeName) {
     case 'Edit':
       return false;
-    case 'EditScreen':
+    case 'Edit':
       return false;
     default: return true;
   }

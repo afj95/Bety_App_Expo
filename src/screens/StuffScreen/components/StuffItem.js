@@ -22,11 +22,11 @@ export const StuffItem = ({ stuff, index, value }) => {
                     <MyText style={{...styles.note, color: toggleCheckBox ? 'gray' : 'black' }} text={stuff.notes}/>
                 </View>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '20%', alignItems: 'center'}}>
-                    <CheckBox
+                    {/* <CheckBox
                         disabled={false}
                         value={toggleCheckBox}
                         onValueChange={(newValue) => setToggleCheckBox(newValue)}
-                    />
+                    /> */}
                     <TouchableOpacity onPress={() => {console.log(index)}}>
                         <Ionicons name={'ios-trash-bin'} size={20} color={'#ff0000'} />
                     </TouchableOpacity>

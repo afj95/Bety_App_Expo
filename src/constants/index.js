@@ -1,0 +1,1 @@
+export const API_URL = __DEV__ ? `http://192.168.100.45:5050/api/v1/` : null ;

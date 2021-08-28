@@ -5,6 +5,7 @@
         "profileTab": "Profile",
         "homeScreen": "Homes",
         "editProfile": "Edit Profile",
+        "phone": "Phone Number",
         "name": "Name",
         "email": "Email",
         "password": "Password",
@@ -25,6 +26,11 @@
         "deleteDesc": "You can't undo this action",
         "homeInfo": "Show home info",
         "infoDesc": "Show the home details",
-        "noChanges": "No changes"
+        "noChanges": "No changes",
+        "welcomeBack": "Welcome Back",
+        "login": "Login",
+        "forgotPassword": "Forgot Password",
+        "newHere": "Are you new here ? ",
+        "signup": "Sign up"
     }
 }

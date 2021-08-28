@@ -8,20 +8,20 @@ export const fetchData = () => {
         dispatch({
             type: LOADING,
         });
-        try {
-            const response = await timeoutPromise(
-                fetch(``)
-            );
-            if(!response.ok) {
-                throw new Error("Error");
-            }
-            const resData = await response.json();
-            dispatch({
-                type: DONE,
-                data: resData.data
-            });
-        } catch (error) {
-            throw error;
-        }
+        // try {
+        //     const response = await timeoutPromise(
+        //         fetch(``)
+        //     );
+        //     if(!response.ok) {
+        //         throw new Error("Error");
+        //     }
+        //     const resData = await response.json();
+        //     dispatch({
+        //         type: DONE,
+        //         data: resData.data
+        //     });
+        // } catch (error) {
+        //     throw error;
+        // }
     }
 }

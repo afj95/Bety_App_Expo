@@ -70,7 +70,7 @@ export const AddHome = () => {
                 <MyText text={'addHome'} style={{ fontSize: 9, color: Colors.text }}  />
             </TouchableOpacity>
             <Portal>
-                <Modalize onClosed={_onClosed} ref={modalizeRef} snapPoint={height - (height / 3)} >
+                <Modalize onClosed={_onClosed} modalHeight={height - (height / 3)} ref={modalizeRef} snapPoint={height - (height / 3)} >
                     <View style={styles.container}>
                         <View>
                             <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
@@ -78,9 +78,7 @@ export const AddHome = () => {
                                 {isLoading ?
                                     <ActivityIndicator size={'small'} color={'black'} />
                                 :
-                                    <TouchableOpacity onPress={() => modalizeRef.current?.close()}>
-                                        <AntDesign name={'close'} size={20} />
-                                    </TouchableOpacity>
+                                    <AntDesign name={'close'} size={20} onPress={() => modalizeRef.current?.close()} />
                                 }
                             </View>
                             <TextInput

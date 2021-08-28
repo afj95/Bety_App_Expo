@@ -28,7 +28,7 @@ export const ProfileBody = () => {
             <Image source={{ uri : user.coverImage}} style={{ width, height: 205 }} />
             <View style={styles.nameAndImageContainer}>
                 <View style={styles.editContainer}>
-                    <TouchableOpacity onPress={() => navigate('Edit', { user: user, lang: i18n.dir })}>
+                    <TouchableOpacity onPress={() => navigate('EditScreen', { user: user, lang: i18n.dir })}>
                         <Feather name={'edit'} size={20} color={'white'} />
                     </TouchableOpacity>
                 </View>
