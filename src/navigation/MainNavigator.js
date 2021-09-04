@@ -1,172 +1,71 @@
-import React from 'react';
-// icons
-import { AntDesign } from '@expo/vector-icons';
-// Navigation
-// import { createDrawerNavigator } from '@react-navigation/drawer';
-import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
+import React, { useEffect, useState } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import Loader from '../components/Loaders/Loader';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import i18n from "../i18next";
+import {
+  AuthStackScreens,
+  HomeStackScreen,
+  ProfileStuckScreen,
+  StuffStuckScreen
+} from './Navigators';
+import { ErrorScreen } from '../screens/ErrorScreen/ErrorScreen';
 
-// Screens
-import { HomeScreen } from '../screens/HomeScreen';
-import { ProfileScreen } from '../screens/ProfileScreen';
-import { StuffScreen } from '../screens/StuffScreen';
-import { EditProfileScreen } from '../screens/EditProfileScreen';
-import EditScreen from '../screens/EditProfileScreen/EditScreen';
-import { LoginScreen } from '../screens/LoginScreen';
-import MyText from '../components/UI/MyText';
-import Colors from '../utils/Colors';
+const MainStack = createStackNavigator();
+export const MainStackScreens = () => {
+  const [initialRouteName, setInitialRouteName] = useState('')
+  const [isI18nInitialized, setIsI18nInitialized] = useState(false);
+  const [screenToShow, setScreenToShow] = useState(<Loader />);
 
-const AuthStack = createStackNavigator();
-export const AuthStackScreens = () => (
-  <AuthStack.Navigator
-    screenOptions={{
-      headerShown: false,
-    }}>
-    <AuthStack.Screen name={"Login"} component={LoginScreen} />
-    <AuthStack.Screen name={"Home"} component={HomeStackScreen} />
-  </AuthStack.Navigator>
-)
+  useEffect(() => {
+    (async () => {
+      await AsyncStorage.getItem('token', (error, result) => {
+        if(error) {
+          console.log(`error`, error)
+        } else if(result) { // In case of there is a token
+          // console.log(`result`, result)
+          setInitialRouteName('Home')
+        } else { // In case of no token founded
+          setInitialRouteName('Auth')
+        }
+      })
+    })()
+    
+    // Initializing i18next library for localization.
+    i18n.init()
+    .then(() => {
+      // console.log('initialized')
+      setIsI18nInitialized(true)
+    })
+    .catch((error) => {
+      // TODO: Show error message to user.
+      // Restart the app.
+      console.log('Error while initializing i18n ' + error);
+      setIsI18nInitialized(false);
+      setScreenToShow(<ErrorScreen />)
+    });
+  }, [])
 
-const StuffStuck = createStackNavigator();
-const StuffStuckScreen = () => (
-  <StuffStuck.Navigator
-    screenOptions={{
-      headerShown: false
-    }}>
-    <StuffStuck.Screen name="StuffScreen" component={StuffScreen} />
-  </StuffStuck.Navigator>
-)
+  if(!initialRouteName || !isI18nInitialized) {
+    setTimeout(() => {
+      setScreenToShow(<ErrorScreen />)
+    }, 5000)
+    return screenToShow
+  } else {
+    return (
+      <MainStack.Navigator
+        initialRouteName={initialRouteName}
+        screenOptions={{ headerShown: false }}>
 
-const ProfileStuck = createStackNavigator();
-const ProfileStuckScreen = () => (
-    <ProfileStuck.Navigator
-        screenOptions={{
-            headerShown: false,
-        }}
-        // mode={'modal'}
-    >
-        <ProfileStuck.Screen name="Profile" component={ProfileScreen} />
-        <ProfileStuck.Screen name="EditScreen"    component={EditProfileScreen} />
-        <ProfileStuck.Screen name="Edit"    component={EditScreen} />
-    </ProfileStuck.Navigator>
-)
+        <MainStack.Screen name='Home'    component={HomeStackScreen} />
 
-const HomeStack = createStackNavigator();
-export const HomeStackScreen = () => (
-  <HomeStack.Navigator
-    screenOptions={{
-      headerShown: false,
-    }}
-  >
-    <HomeStack.Screen name='Home' component={TabScreen} />
-    <HomeStack.Screen name="Stuff" component={StuffStuckScreen} />
-  </HomeStack.Navigator>
-);
+        <MainStack.Screen name="Profile" component={ProfileStuckScreen} />
 
-const Tab = createBottomTabNavigator();
-export const TabScreen = () => {
-  return (
-    <Tab.Navigator
-      screenOptions={({ route }) => ({
-        tabBarIcon: ({ focused }) => {
-          let iconName;
-          const color = focused ? 'blue' : 'black';
-          if (route.name === 'HomeTab') {
-            iconName = 'home';
-          } else if (route.name === 'ProfileTab') {
-              iconName = 'user'
-          } //else if (route.name === 'SettingsTab') {
-          //   return <Feather name='settings' size={23} color={color}/>
-          // }
-          return <AntDesign name={iconName} size={23} color={color} />;
-        },
-      })}
-      >
-      
-      <Tab.Screen
-        name='HomeTab'
-        component={HomeScreen}
-        options={() => ({
-          tabBarLabel: ({focused}) => <MyText style={{color: focused? 'blue':'black', fontSize: 12, marginBottom: 5}} text={'homeTab'} />
-        })}
+        <MainStack.Screen name="Stuff"   component={StuffStuckScreen} />
+        
+        <MainStack.Screen name="Auth"    component={AuthStackScreens} />
 
-      />
-      <Tab.Screen
-        name='ProfileTab'
-        component={ProfileStuckScreen}
-        options={({ route }) => ({
-          tabBarVisible: getTabVisibility(route),
-          tabBarLabel: ({focused}) => <MyText style={{color: focused? 'blue':'black', fontSize: 12, marginBottom: 5}} text={'profileTab'} />
-        }) }
-      />
-    </Tab.Navigator>
-  );
-};
-
-// const Drawer = createDrawerNavigator();
-// export const DrawerNavigator = () => {
-//   const drawers = [
-//     {
-//       name: 'Homes',
-//       screen: TabScreen,
-//       label: 'Homes',
-//       icon: 'home-outline'
-//     },
-//     {
-//       name: 'Settings',
-//       screen: SettingsScreen,
-//       label: 'Settings',
-//       icon: 'home-outline'
-//     }
-//   ]
-
-//   return (
-//     <Drawer.Navigator
-//       // drawerContent={props => <CustomDrawer {...props} />}
-//       drawerContentOptions={{
-//           activeTintColor: 'gray', // TODO: get colors from seperate file
-//           itemStyle: { marginVertical: 3 },
-//       }}
-//     >
-//       {drawers.map(({ name, icon, label, screen}) => (
-//         <Drawer.Screen
-//           key={name}
-//           name={name}
-//           component={screen}
-//           options={() => ({
-//             title: ({ focused }) => (
-//                 <Text style={{
-//                   fontSize: 14,
-//                   fontWeight: '500',
-//                   color: focused ? 'green' : 'gray'
-//                 }}>
-//                   {label}
-//                 </Text>
-//             ),
-//             drawerIcon: ({ focused }) => (
-//               <MaterialCommunityIcons
-//                 name={icon}
-//                 size={23}
-//                 color={focused ? 'green' : 'gray'}
-//               />
-//             )
-//           })}
-//         />
-//       ))}
-//     </Drawer.Navigator>
-//   )
-// }
-
-const getTabVisibility = (route) => {
-  const routeName = getFocusedRouteNameFromRoute(route);
-
-  switch(routeName) {
-    case 'Edit':
-      return false;
-    case 'Edit':
-      return false;
-    default: return true;
+      </MainStack.Navigator>
+    )
   }
 }

@@ -4,35 +4,51 @@ import {
     AUTH_LOADING,
     AUTH_SUCCESS,
     AUTH_FAILED,
+    LOGOUT,
 } from './authTypes';
 
 export const authReducer = (state = initialState, action) => {
     switch(action.type) {
-        case RESET_AUTH:
+        case RESET_AUTH: {
             return {
                 ...state,
                 isLoading: '',
-                error: ''
+                status: '',
             }
-        case AUTH_LOADING:
+        }
+        case AUTH_LOADING: {
             return {
                 ...state,
                 isLoading: true,
             };
-        case AUTH_SUCCESS:
+        }
+        case AUTH_SUCCESS: {
             return {
                 ...state,
                 isLoading: false,
-                user: action?.user?.data?.data?.user,
-                error: false
+                user: action?.user,
+                status: action?.status,
             };
-        case AUTH_FAILED:
+        }
+        case AUTH_FAILED: {
             return {
                 ...state,
                 isLoading: false,
-                error: true
+                status: action?.status
             }
-        default: 
-            return state;
+        }
+        case LOGOUT: {
+            return {
+                ...state,
+                user: '',
+                isLoading: '',
+                status: '',
+            }
+        }
+        default: {
+            return {
+                ...state
+            }
+        }
     };
 };

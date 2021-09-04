@@ -13,6 +13,17 @@ const loginRequest = async (username, password) => {
     })
 }
 
+const registerRequest = async (user) => {
+    return await request({
+        url: 'auth/register',
+        method: 'post',
+        params: {
+            user: user
+        }
+    })
+}
+
 export {
     loginRequest,
+    registerRequest
 }

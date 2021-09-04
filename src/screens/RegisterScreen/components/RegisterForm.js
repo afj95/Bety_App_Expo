@@ -6,22 +6,55 @@ import {
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { TextInput } from 'react-native-paper';
-import { AntDesign, Feather } from '@expo/vector-icons';
+import { AntDesign, Entypo, Feather, Fontisto } from '@expo/vector-icons';
 import MyText from '../../../components/UI/MyText';
 import { t } from '../../../i18next';
 import { useSelector } from 'react-redux';
-import { navigate } from '../../../navigation/RootNavigation';
+import { goBack } from '../../../navigation/RootNavigation';
 
-export const LoginForm = ({ loginProps: { handleChange, values, errors, handleBlur, handleSubmit } }) => {
+export const RegisterForm = ({ RegisterProps: { handleChange, values, errors, handleBlur, handleSubmit } }) => {
     const isLoading = useSelector(state => state.auth?.isLoading);
     const [showPass, setShowPass] = useState(false);
-    
-    const onRegisterTextPressed = () => navigate('Register')
+
+    const onloginTextPressed = () => goBack()
     
     return (
         <View>
+
             <View style={styles.textContainer}>
                 <AntDesign name={'user'} size={15} style={{ marginEnd: 5 }} color={'#000'} />
+                <MyText>firstName</MyText>
+            </View>
+            <TextInput
+                style={styles.input(isLoading)}
+                placeholder={t('firstName')}
+                mode={'flat'}
+                onChangeText={handleChange('firstName')}
+                value={values?.firstName}
+                error={errors?.firstName}
+                onBlur={handleBlur('firstName')}
+                theme={{ colors: { error: '#B22323', primary: '#595959' }, roundness: 12 }}
+            />
+            {errors?.firstName && <ErrorText error={errors?.firstName}/> }
+
+            <View style={styles.textContainer}>
+                <AntDesign name={'user'} size={15} style={{ marginEnd: 5 }} color={'#000'} />
+                <MyText>lastName</MyText>
+            </View>
+            <TextInput
+                style={styles.input(isLoading)}
+                placeholder={t('lastName')}
+                mode={'flat'}
+                onChangeText={handleChange('lastName')}
+                value={values?.lastName}
+                error={errors?.lastName}
+                onBlur={handleBlur('lastName')}
+                theme={{ colors: { error: '#B22323', primary: '#595959' }, roundness: 12 }}
+            />
+            {errors?.lastName && <ErrorText error={errors?.lastName}/> }
+
+            <View style={styles.textContainer}>
+                <Entypo name={'mobile'} size={15} style={{ marginEnd: 5 }} color={'#000'} />
                 <MyText>phone</MyText>
             </View>
             <TextInput
@@ -37,7 +70,24 @@ export const LoginForm = ({ loginProps: { handleChange, values, errors, handleBl
             />
             {errors?.username && <ErrorText error={errors?.username}/> }
 
-            <View style={[styles.textContainer, { marginTop: 30 }]}>
+            <View style={styles.textContainer}>
+                <Fontisto name={'email'} size={15} style={{ marginEnd: 5 }} color={'#000'} />
+                <MyText>email</MyText>
+            </View>
+            <TextInput
+                style={styles.input(isLoading)}
+                placeholder={t('email')}
+                mode={'flat'}
+                onChangeText={handleChange('email')}
+                value={values?.email}
+                error={errors?.email}
+                onBlur={handleBlur('email')}
+                keyboardType="email-address"
+                theme={{ colors: { error: '#B22323', primary: '#595959' }, roundness: 12 }}
+            />
+            {errors?.email && <ErrorText error={errors?.email}/> }
+
+            <View style={styles.textContainer}>
                 <Feather name={'lock'} size={15} style={{ marginEnd: 5 }} color={'#000'} />
                 <MyText>password</MyText>
             </View>
@@ -62,28 +112,24 @@ export const LoginForm = ({ loginProps: { handleChange, values, errors, handleBl
                 }
             />
             {errors?.password && <ErrorText error={errors?.password}/> }
-            <View style={styles.forgotPass}>
-                <TouchableOpacity style={{ marginVertical: 20 }}>
-                    <MyText>forgotPassword</MyText>
-                </TouchableOpacity>
-            </View>
+            
             {isLoading ?
                 <View 
-                    style={styles.loginButton}>
+                    style={styles.registerButton}>
                     <ActivityIndicator size={'large'} color={'white'} />
                 </View>
             :
                 <TouchableOpacity
-                    style={styles.loginButton}
+                    style={styles.registerButton}
                     onPress={handleSubmit}>
-                    <MyText style={{ color: 'white', fontSize: 18 }}>login</MyText>
+                    <MyText style={{ color: 'white', fontSize: 18 }}>signup</MyText>
                 </TouchableOpacity>
             }
-            <View style={styles.newHere}>
-                <MyText>newHere</MyText>
-                <TouchableOpacity onPress={onRegisterTextPressed}>
+            <View style={styles.haveAccount}>
+                <MyText>haveAccount</MyText>
+                <TouchableOpacity onPress={onloginTextPressed}>
                     <MyText style={styles.signupText}>
-                        {' ' + t('signup')}
+                        {' ' + t('login')}
                     </MyText>
                 </TouchableOpacity>
             </View>
@@ -94,15 +140,16 @@ export const LoginForm = ({ loginProps: { handleChange, values, errors, handleBl
 const styles = StyleSheet.create({
     textContainer: {
         flexDirection: 'row',
-        alignItems: 'center'
+        alignItems: 'center',
+        marginTop: 30,
     },
-    loginButton: {
+    registerButton: {
         height: 50,
         backgroundColor: 'black',
         borderRadius: 10,
         justifyContent: 'center',
         alignItems: 'center',
-        elevation: 5,
+        marginTop: 25,
         // shadow
         shadowColor: '#888888',
         shadowOffset: { width: 0, height: 5 },
@@ -112,16 +159,10 @@ const styles = StyleSheet.create({
     },
     input: (isLoading) => ({
         width: '100%',
-        marginTop: 5,
         justifyContent: 'center',
         backgroundColor: isLoading ? '#f2f2f2' : 'white',
     }),
-    forgotPass: {
-        width: '100%',
-        alignItems: 'center',
-        marginVertical: 5
-    },
-    newHere: {
+    haveAccount: {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent:  'center',

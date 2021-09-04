@@ -12,7 +12,7 @@ export const request = ({
     return new Promise((resolve, reject) => {
       const timeoutId = setTimeout(() => {
         reject(new Error("Timeout, Server is not responding"));
-      }, 5000); // After 10 seconds will stop the request
+      }, 5000); // After 5 seconds will stop the request
 
       let modfiedHeaders = {
         ...headers,
@@ -26,9 +26,10 @@ export const request = ({
           resolve(res);
         })
         .catch(error => {
-          console.log(error.response)
           clearTimeout(timeoutId);
-          reject(error)
+          // returning the error status code
+          // and show an error message depending on code.
+          reject(error?.response?.status)
         })
     })
   } catch (error) {

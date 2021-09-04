@@ -27,10 +27,26 @@
         "homeInfo": "إظهار معلومات المنزل",
         "infoDesc": "عرض جميع تفاصيل المنزل",
         "noChanges": "لا يوجد تغييرات",
+        "required": "هذا الحقل الزامي",
         "welcomeBack": "مرحبا بك مجددًا",
         "login": "تسجيل الدخول",
         "forgotPassword": "نسيت كلمة المرور",
         "newHere": "مستخدم جديد ؟ ",
-        "signup": "تسجيل"
+        "welcome": "مرحبًا بك",
+        "firstName": "الاسم الأول",
+        "lastName": "الاسم الأخير",
+        "signup": "تسجيل",
+        "onlyNumbers": "رقم الهاتف يجب ان يكون ارقم فقط",
+        "phoneStartsWith": "رقم الهاتف يجب ان يبدأ ب 0",
+        "phoneLength": "رقم الهاتف يجب ان يتكون من 10 خانات",
+        "notValidEmail": "يرجى ادخال بريد الكتروني صالح",
+        "passwordLength": "كلمة المرور يجب ان تكون من 8 خانات",
+        "haveAccount": "لديك حساب ؟ ",
+        "registeredSuccessfully": "تم التسجيل بنجاح",
+        "registeringDuplicate": "لديك حساب مسبق ",
+        "serverError": "حدث خطأ يرجى المحاولة لاحقًا",
+        "loggedinSuccessfully": "مرحبًا بك ...",
+        "wrongPassword": "كلمة مرور خاطئة!",
+        "notFoundedUser": "ليس لديك حساب مسجل!"
     }
 }

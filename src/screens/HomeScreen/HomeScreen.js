@@ -4,19 +4,23 @@ import {
   FlatList,
   Animated,
   StyleSheet,
+  Image,
 } from "react-native";
 // Components
 import { HomeItem, Header } from "./components";
 // Fake data
 import { homes } from "../../fakeData/";
-import { HeaderBottom } from '../../components/UI/HeaderBottomSeperator';
+import { useSelector } from 'react-redux';
+import MyText from '../../components/UI/MyText';
 
 const {diffClamp} = Animated;
 const headerHeight = 80 * 2;
 
 export const HomeScreen = ({ navigation }) => {
+  const user = useSelector(state => state.auth);
+  // console.log(user)
+
   const translateYNumber = useRef();
-  const ref = useRef(null);
   const scrollY = useRef(new Animated.Value(0));
   const scrollYClamped = diffClamp(scrollY.current, 0, headerHeight);
 
@@ -62,11 +66,19 @@ export const HomeScreen = ({ navigation }) => {
   //   }
   // };
 
+  const EmptyComponent = () => (
+    <View style={{ alignItems: 'center', paddingHorizontal: 10 }}>
+      <Image source={require('../../assets/images/9073-empty-store-box.gif')}
+        style={{ width: '95%', borderWidth: 1, resizeMode: 'contain' }} />
+    </View>
+  )
+
   return (
-    <View style={{ flex: 1 }}>
+    <>
       <Animated.View style={[styles.header, {transform: [{translateY}]}]}>
         <Header navigation={navigation} text={'homeScreen'} headerHeight={headerHeight} />
       </Animated.View>
+    <View style={{ flex: 1, padding: 10, backgroundColor: '#fff' }}>
 
       {/* TODO: Get homes from API */}
       <Animated.FlatList
@@ -74,7 +86,9 @@ export const HomeScreen = ({ navigation }) => {
         bounces={false}
         keyExtractor={(item, index) => '#' + index.toString()}
         key={(item, index) => index.toString()}
-        data={homes}
+        data={[]}
+        // TODO: Add empty component
+        ListEmptyComponent={EmptyComponent}
         showsVerticalScrollIndicator={false}
         ListHeaderComponent={ <View style={{ height: 80 }}/>}
         // onMomentumScrollEnd={handleSnap}
@@ -82,6 +96,7 @@ export const HomeScreen = ({ navigation }) => {
         renderItem={({ item, index }) => <HomeItem key={index} home={item} />}
       />
     </View>
+    </>
   )
 };
 
