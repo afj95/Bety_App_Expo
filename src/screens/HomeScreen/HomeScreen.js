@@ -5,6 +5,7 @@ import {
   Animated,
   StyleSheet,
   Image,
+  Text,
 } from "react-native";
 // Components
 import { HomeItem, Header } from "./components";
@@ -17,8 +18,8 @@ const {diffClamp} = Animated;
 const headerHeight = 80 * 2;
 
 export const HomeScreen = ({ navigation }) => {
-  const user = useSelector(state => state.auth);
-  // console.log(user)
+  
+  const user = useSelector(state => state?.authReducer?.user);
 
   const translateYNumber = useRef();
   const scrollY = useRef(new Animated.Value(0));
@@ -68,8 +69,9 @@ export const HomeScreen = ({ navigation }) => {
 
   const EmptyComponent = () => (
     <View style={{ alignItems: 'center', paddingHorizontal: 10 }}>
+      <Text>{user?.username}</Text>
       <Image source={require('../../assets/images/9073-empty-store-box.gif')}
-        style={{ width: '95%', borderWidth: 1, resizeMode: 'contain' }} />
+        style={{ width: '95%', borderWidth: 0, resizeMode: 'contain' }} />
     </View>
   )
 
@@ -78,24 +80,23 @@ export const HomeScreen = ({ navigation }) => {
       <Animated.View style={[styles.header, {transform: [{translateY}]}]}>
         <Header navigation={navigation} text={'homeScreen'} headerHeight={headerHeight} />
       </Animated.View>
-    <View style={{ flex: 1, padding: 10, backgroundColor: '#fff' }}>
-
-      {/* TODO: Get homes from API */}
-      <Animated.FlatList
-        scrollEventThrottle={1}
-        bounces={false}
-        keyExtractor={(item, index) => '#' + index.toString()}
-        key={(item, index) => index.toString()}
-        data={[]}
-        // TODO: Add empty component
-        ListEmptyComponent={EmptyComponent}
-        showsVerticalScrollIndicator={false}
-        ListHeaderComponent={ <View style={{ height: 80 }}/>}
-        // onMomentumScrollEnd={handleSnap}
-        onScroll={handleScroll}
-        renderItem={({ item, index }) => <HomeItem key={index} home={item} />}
-      />
-    </View>
+      <View style={{ flex: 1, padding: 10, backgroundColor: '#fff' }}>
+        {/* TODO: Get homes from API */}
+        <Animated.FlatList
+          scrollEventThrottle={1}
+          bounces={false}
+          keyExtractor={(item, index) => '#' + index.toString()}
+          key={(item, index) => index.toString()}
+          data={[]}
+          // TODO: Add empty component
+          ListEmptyComponent={EmptyComponent}
+          showsVerticalScrollIndicator={false}
+          ListHeaderComponent={ <View style={{ height: 80 }}/>}
+          // onMomentumScrollEnd={handleSnap}
+          onScroll={handleScroll}
+          renderItem={({ item, index }) => <HomeItem key={index} home={item} />}
+        />
+      </View>
     </>
   )
 };

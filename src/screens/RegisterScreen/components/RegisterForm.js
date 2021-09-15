@@ -13,7 +13,7 @@ import { useSelector } from 'react-redux';
 import { goBack } from '../../../navigation/RootNavigation';
 
 export const RegisterForm = ({ RegisterProps: { handleChange, values, errors, handleBlur, handleSubmit } }) => {
-    const isLoading = useSelector(state => state.auth?.isLoading);
+    const isLoading = useSelector(state => state?.authReducer?.isLoading);
     const [showPass, setShowPass] = useState(false);
 
     const onloginTextPressed = () => goBack()

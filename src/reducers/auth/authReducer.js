@@ -1,4 +1,4 @@
-import { initialState } from './auhtState';
+import { authState } from './auhtState';
 import {
     RESET_AUTH,
     AUTH_LOADING,
@@ -7,48 +7,48 @@ import {
     LOGOUT,
 } from './authTypes';
 
-export const authReducer = (state = initialState, action) => {
+const authReducer = (state = authState, action) => {
     switch(action.type) {
         case RESET_AUTH: {
             return {
                 ...state,
-                isLoading: '',
-                status: '',
+                authLoading: '',
+                authStatus: '',
             }
         }
         case AUTH_LOADING: {
             return {
                 ...state,
-                isLoading: true,
+                authLoading: true,
             };
         }
         case AUTH_SUCCESS: {
             return {
                 ...state,
-                isLoading: false,
+                authLoading: false,
                 user: action?.user,
-                status: action?.status,
+                authStatus: action?.status,
             };
         }
         case AUTH_FAILED: {
             return {
                 ...state,
-                isLoading: false,
-                status: action?.status
+                authLoading: false,
+                authStatus: action?.status
             }
         }
         case LOGOUT: {
             return {
                 ...state,
                 user: '',
-                isLoading: '',
-                status: '',
+                authLoading: '',
+                authStatus: '',
             }
         }
         default: {
-            return {
-                ...state
-            }
+            return { ...state }
         }
     };
 };
+
+export default authReducer;

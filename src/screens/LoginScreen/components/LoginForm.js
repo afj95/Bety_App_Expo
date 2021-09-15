@@ -13,7 +13,7 @@ import { useSelector } from 'react-redux';
 import { navigate } from '../../../navigation/RootNavigation';
 
 export const LoginForm = ({ loginProps: { handleChange, values, errors, handleBlur, handleSubmit } }) => {
-    const isLoading = useSelector(state => state.auth?.isLoading);
+    const authLoading = useSelector(state => state?.authReducer?.authLoading);
     const [showPass, setShowPass] = useState(false);
     
     const onRegisterTextPressed = () => navigate('Register')
@@ -25,7 +25,7 @@ export const LoginForm = ({ loginProps: { handleChange, values, errors, handleBl
                 <MyText>phone</MyText>
             </View>
             <TextInput
-                style={styles.input(isLoading)}
+                style={styles.input(authLoading)}
                 placeholder={'05XXXXXXXX'}
                 mode={'flat'}
                 onChangeText={handleChange('username')}
@@ -42,7 +42,7 @@ export const LoginForm = ({ loginProps: { handleChange, values, errors, handleBl
                 <MyText>password</MyText>
             </View>
             <TextInput
-                style={styles.input(isLoading)}
+                style={styles.input(authLoading)}
                 placeholder={t('password')}
                 mode={'flat'}
                 onChangeText={handleChange('password')}
@@ -67,7 +67,7 @@ export const LoginForm = ({ loginProps: { handleChange, values, errors, handleBl
                     <MyText>forgotPassword</MyText>
                 </TouchableOpacity>
             </View>
-            {isLoading ?
+            {authLoading ?
                 <View 
                     style={styles.loginButton}>
                     <ActivityIndicator size={'large'} color={'white'} />
@@ -110,11 +110,11 @@ const styles = StyleSheet.create({
         shadowRadius: 2,  
         elevation: 5
     },
-    input: (isLoading) => ({
+    input: (authLoading) => ({
         width: '100%',
         marginTop: 5,
         justifyContent: 'center',
-        backgroundColor: isLoading ? '#f2f2f2' : 'white',
+        backgroundColor: authLoading ? '#f2f2f2' : 'white',
     }),
     forgotPass: {
         width: '100%',

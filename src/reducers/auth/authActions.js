@@ -25,7 +25,7 @@ const login = (username, password) => {
             });
             
         } catch (error) {
-            dispatch({ type: AUTH_FAILED, status: error });
+            dispatch({ type: AUTH_FAILED, authStatus: error });
         }
     }
 }
@@ -49,7 +49,7 @@ const register = (user) => {
             // The error is the status code of the error>
             // ex: 409: have an acc. etc.
 
-            dispatch({ type: AUTH_FAILED, status: error });
+            dispatch({ type: AUTH_FAILED, authStatus: error });
         }
     }
 }
@@ -63,7 +63,7 @@ const logout = () => {
 }
 
 const resetAuth = () => {
-    return { type: RESET_AUTH }
+    return async(dispatch) => dispatch({ type: RESET_AUTH })
 }
 
 export {

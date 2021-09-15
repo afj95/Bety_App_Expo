@@ -1,5 +1,5 @@
-export const initialState = {
+export const authState = {
     user: {},
-    isLoading: false,
-    status: ''
+    authLoading: false,
+    authStatus: ''
 };

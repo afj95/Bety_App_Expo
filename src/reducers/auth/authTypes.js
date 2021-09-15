@@ -1,7 +1,7 @@
-const RESET_AUTH = "RESET_AUTH";
 const AUTH_LOADING = "AUTH_LOADING";
 const AUTH_SUCCESS = "AUTH_SUCCESS";
 const AUTH_FAILED = "AUTH_FAILED";
+const RESET_AUTH = "RESET_AUTH";
 const LOGOUT = "LOGOUT";
 
 export {

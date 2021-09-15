@@ -20,17 +20,16 @@ import i18n, { t } from '../../../i18next';
 // modal 
 // import { Edit } from './Edit';
 // fakeData
-import { user } from '../../../fakeData';
+// import { user } from '../../../fakeData';
 import { useDispatch, useSelector } from 'react-redux';
-import { logout } from '../../../reducers';
+import { logout } from '../../../reducers/auth/authActions';
 
-const { height, width } = Dimensions.get('screen');
+const { width } = Dimensions.get('screen');
 
 export const ProfileBody = ({ navigation }) => {
     const dispatch = useDispatch();
 
-    const user = useSelector(state => state.auth.user);
-    // console.log(user)
+    const user = useSelector(state => state?.authReducer?.user);
 
     const onLogoutPrissed = () => {
         Alert.alert(t('logoutTitle'), t('logoutMessage'), [
@@ -47,7 +46,7 @@ export const ProfileBody = ({ navigation }) => {
                           index: 1,
                           routes: [{ name: 'Auth' }],
                         })
-                    );                      
+                    );
                 }
             }
         ])
@@ -55,20 +54,20 @@ export const ProfileBody = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
-            <Image source={{ uri : user.coverImage}} style={{ width, height: 205 }} />
+            <Image source={{ uri : user?.coverImage}} style={{ width, height: 205 }} />
             <View style={styles.nameAndImageContainer}>
                 <View style={styles.editContainer}>
-                    <TouchableOpacity onPress={() => navigate('EditScreen', { user: user, lang: i18n.dir })}>
+                    <TouchableOpacity style={{ borderWidth: 0, borderColor: 'white', padding: 8, justifyContent: 'center', alignItems: 'center' }} onPress={() => navigate('EditScreen', { user: user, lang: i18n.dir })}>
                         <Feather name={'edit'} size={20} color={'white'} />
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={onLogoutPrissed}>
+                    <TouchableOpacity onPress={onLogoutPrissed} style={{ borderWidth: 0, borderColor: 'white', padding: 8, justifyContent: 'center', alignItems: 'center' }}>
                         <MaterialCommunityIcons name={'logout'} size={20} color={'white'} />
                     </TouchableOpacity>
                 </View>
                 
                 <View style={styles.imageContainer}>
                     <Image
-                        source={{ uri : user.profileImage}}
+                        source={{ uri : user?.profileImage}}
                         style={{ width: 90, height: 90, borderRadius: 45 }} />
                 </View>
                 <View style={styles.nameContainer}>
@@ -81,7 +80,7 @@ export const ProfileBody = ({ navigation }) => {
                 showsVerticalScrollIndicator={false}>
                 <View style={styles.detailsContainer}>
                     <MyText style={{ textDecorationLine: 'underline', fontWeight: 'bold'}} text={'email'}/>
-                    <MyText text={user.email}/>
+                    <MyText text={user?.email}/>
                 </View>
                 <View style={styles.detailsContainer}>
                     <MyText style={{ textDecorationLine: 'underline', fontWeight: 'bold'}} text={'phone'}/>
@@ -89,18 +88,18 @@ export const ProfileBody = ({ navigation }) => {
                 </View>
                 <View style={styles.detailsContainer}>
                     <MyText style={{ textDecorationLine: 'underline', fontWeight: 'bold'}} text={'password'}/>
-                    <MyText hide={true} text={user.password} />
+                    <MyText hide={true} text={user?.password} />
                 </View>
                 <View style={styles.detailsContainer}>
                     <MyText style={{ textDecorationLine: 'underline', fontWeight: 'bold'}} text={'language'}/>
                     <MyText text={i18n.dir.toUpperCase() === 'RTL' ? 'العربية' : 'English'}/>
                 </View>
-                {user?.location &&
+                {/* {user?.location &&
                     <View style={styles.detailsContainer}>
                         <MyText style={{ textDecorationLine: 'underline', fontWeight: 'bold'}} text={'location'}/>
-                        <MyText text={user.location}/>
+                        <MyText text={user?.location}/>
                     </View>
-                }
+                } */}
             </ScrollView>
         </View>
     )
@@ -113,12 +112,11 @@ const styles = StyleSheet.create({
         paddingHorizontal: 8,
     },
     editContainer: {
-        marginTop: -15,
         paddingHorizontal: 15,
         borderRadius: 20,
-        alignItems: 'flex-end',
+        alignItems: 'center',
         width: '100%',
-        height: 25,
+        // height: 25,
         flexDirection: 'row',
         justifyContent: 'space-between'
     },

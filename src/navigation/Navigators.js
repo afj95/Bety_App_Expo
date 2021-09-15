@@ -72,9 +72,7 @@ export const TabScreen = () => {
             iconName = 'home';
           } else if (route.name === 'ProfileTab') {
               iconName = 'user'
-          } //else if (route.name === 'SettingsTab') {
-          //   return <Feather name='settings' size={23} color={color}/>
-          // }
+          }
           return <AntDesign name={iconName} size={23} color={color} />;
         },
       })}

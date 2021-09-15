@@ -2,7 +2,7 @@ import React from 'react'
 import { View } from 'react-native';
 import { MainHeader } from "../../components/UI/MainHeader";
 // Components
-import { Body } from './components';
+import { EditProfileBody } from './components';
 // import { MyModal } from './components/MyModal';
 
 export const EditProfileScreen = (props) => {
@@ -15,7 +15,7 @@ export const EditProfileScreen = (props) => {
                 text={'editProfile'}
                 showGoBackButton={true}
             />
-            <Body
+            <EditProfileBody
                 lang={props.route.params.lang}
                 user={props.route.params.user}
             />

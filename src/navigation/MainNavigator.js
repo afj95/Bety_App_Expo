@@ -7,24 +7,54 @@ import {
   AuthStackScreens,
   HomeStackScreen,
   ProfileStuckScreen,
-  StuffStuckScreen
+  StuffStuckScreen,
 } from './Navigators';
 import { ErrorScreen } from '../screens/ErrorScreen/ErrorScreen';
+import { Provider, useSelector } from 'react-redux';
+// import { store, persistor } from '../reducers';
+import { PersistGate } from 'redux-persist/integration/react';
+import { NavigationContainer } from '@react-navigation/native';
+import { Host } from 'react-native-portalize';
+import { navigationRef } from './RootNavigation';
+
+import { store, persistor } from '../reducers/store';
+
+export default MainNavigator = () => {
+  return (
+    <Provider store={store}>
+      <PersistGate loading={<Loader />} persistor={persistor}>
+        {/* Host for modalize */}
+        <Host>
+          <NavigationContainer ref={navigationRef}>
+            <MainStackScreens />
+          </NavigationContainer>
+        </Host>
+      </PersistGate>
+    </Provider>
+  )
+}
 
 const MainStack = createStackNavigator();
-export const MainStackScreens = () => {
+const MainStackScreens = () => {
   const [initialRouteName, setInitialRouteName] = useState('')
   const [isI18nInitialized, setIsI18nInitialized] = useState(false);
   const [screenToShow, setScreenToShow] = useState(<Loader />);
+  const user = useSelector((state) => state?.authReducer?.user)
 
   useEffect(() => {
+    // Checking the token
     (async () => {
       await AsyncStorage.getItem('token', (error, result) => {
         if(error) {
           console.log(`error`, error)
+          setInitialRouteName('Auth')
         } else if(result) { // In case of there is a token
           // console.log(`result`, result)
-          setInitialRouteName('Home')
+          if(user && Object.keys(user).length > 0) {
+            setInitialRouteName('Home')
+          } else {
+            setInitialRouteName('Auth')  
+          }
         } else { // In case of no token founded
           setInitialRouteName('Auth')
         }
@@ -38,7 +68,6 @@ export const MainStackScreens = () => {
       setIsI18nInitialized(true)
     })
     .catch((error) => {
-      // TODO: Show error message to user.
       // Restart the app.
       console.log('Error while initializing i18n ' + error);
       setIsI18nInitialized(false);
@@ -53,19 +82,21 @@ export const MainStackScreens = () => {
     return screenToShow
   } else {
     return (
-      <MainStack.Navigator
-        initialRouteName={initialRouteName}
-        screenOptions={{ headerShown: false }}>
+      <>
+        <MainStack.Navigator
+          initialRouteName={initialRouteName}
+          screenOptions={{ headerShown: false }}>
 
-        <MainStack.Screen name='Home'    component={HomeStackScreen} />
+          <MainStack.Screen name='Home'    component={HomeStackScreen} />
 
-        <MainStack.Screen name="Profile" component={ProfileStuckScreen} />
+          <MainStack.Screen name="Profile" component={ProfileStuckScreen} />
 
-        <MainStack.Screen name="Stuff"   component={StuffStuckScreen} />
-        
-        <MainStack.Screen name="Auth"    component={AuthStackScreens} />
+          <MainStack.Screen name="Stuff"   component={StuffStuckScreen} />
+          
+          <MainStack.Screen name="Auth"    component={AuthStackScreens} />
 
-      </MainStack.Navigator>
+        </MainStack.Navigator>
+      </>
     )
   }
 }

@@ -5,7 +5,7 @@ import { LoginForm } from './components';
 import MyText from '../../components/UI/MyText';
 import { ScrollView } from 'react-native-gesture-handler';
 import { CommonActions } from '@react-navigation/native';
-import { login, resetAuth } from '../../reducers';
+import { login, resetAuth } from '../../reducers/auth/authActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { showMessage } from 'react-native-flash-message';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -14,11 +14,15 @@ import { t } from '../../i18next';
 export const LoginScreen = ({ navigation }) => {
     const dispatch = useDispatch();
 
-    const status = useSelector((state) => state.auth?.status)
-    const user = useSelector((state) => state.auth?.user)
+    const authStatus = useSelector((state) => state?.authReducer?.authStatus)
+    const user = useSelector((state) => state?.authReducer?.user)
 
     useEffect(() => {
-        switch(status) {
+        dispatch(resetAuth())
+    }, [])
+    
+    useEffect(() => {
+        switch(authStatus) {
             case 200:
                 showMessage({
                     message: t('loggedinSuccessfully'),
@@ -27,12 +31,14 @@ export const LoginScreen = ({ navigation }) => {
                     duration: 800
                 })
             AsyncStorage.setItem('token', user?.token).then(() => {
-                navigation.dispatch(
-                    CommonActions.reset({
-                        index: 1,
-                        routes: [ { name: 'Home' } ]
-                    })
-                )
+                if(user && Object.keys(user).length > 0) {
+                    navigation.dispatch(
+                        CommonActions.reset({
+                            index: 1,
+                            routes: [ { name: 'Home' } ]
+                        })
+                    )
+                }
             })
             break;
             case 403:
@@ -42,6 +48,7 @@ export const LoginScreen = ({ navigation }) => {
                     type: 'danger',
                     duration: 800
                 })
+                dispatch(resetAuth());
             break;
             case 404:
                 showMessage({
@@ -50,6 +57,7 @@ export const LoginScreen = ({ navigation }) => {
                     type: 'danger',
                     duration: 800
                 })
+                dispatch(resetAuth());
             break;
             case 500:
                 showMessage({
@@ -58,17 +66,18 @@ export const LoginScreen = ({ navigation }) => {
                     type: 'danger',
                     duration: 500
                 })
-            break;
-        }
+                dispatch(resetAuth());
+                break;
+            }
         dispatch(resetAuth());
-    }, [status, user])
+    }, [authStatus, user])
 
     const initialValues = {
         username: '',
         password: '',
     }
 
-    const onSubmit = (values, { resetForm }) => {
+    const onSubmit = (values) => {
         dispatch(login(values.username, values.password ))
         // resetForm(initialValues);
     }

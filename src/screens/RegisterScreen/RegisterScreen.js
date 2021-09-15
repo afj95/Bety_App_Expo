@@ -9,7 +9,7 @@ import { Formik } from 'formik';
 import { RegisterForm } from './components';
 import MyText from '../../components/UI/MyText';
 import { ScrollView } from 'react-native-gesture-handler';
-import { resetAuth, register } from '../../reducers';
+import { resetAuth, register } from '../../reducers/auth/authActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { showMessage } from 'react-native-flash-message';
 import { t } from '../../i18next';
@@ -17,8 +17,8 @@ import { t } from '../../i18next';
 export const RegisterScreen = () => {
     const dispatch = useDispatch();
 
-    const status = useSelector((state) => state.auth?.status)
-    const user = useSelector((state) => state.auth?.user)
+    const status = useSelector((state) => state?.authReducer?.status)
+    const user = useSelector((state) => state?.authReducer?.user)
 
     useEffect(() => {
         switch(status) {
