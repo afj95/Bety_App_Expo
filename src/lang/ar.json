@@ -47,6 +47,10 @@
         "serverError": "حدث خطأ يرجى المحاولة لاحقًا",
         "loggedinSuccessfully": "مرحبًا بك ...",
         "wrongPassword": "كلمة مرور خاطئة!",
-        "notFoundedUser": "ليس لديك حساب مسجل!"
+        "notFoundedUser": "ليس لديك حساب مسجل!",
+        "deleteHomeTitle": "حذف منزل",
+        "deleteHomeMessage": "هل أنت متأكد من حذف هذا المنزل من القائمة ؟",
+        "cancel": "إلغاء",
+        "yes": "نعم"
     }
 }

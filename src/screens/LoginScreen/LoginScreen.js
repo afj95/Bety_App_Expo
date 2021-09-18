@@ -121,21 +121,6 @@ export const LoginScreen = ({ navigation }) => {
                     </Formik>
                 </View>
             </ScrollView>
-            
-            {/* <View style={{
-                // borderWidth: 1,
-                flex: 1,
-                justifyContent: 'space-between',
-                flexDirection: 'row',
-                alignItems: 'center',
-                paddingHorizontal: 20,
-                marginTop: 20
-            }}> */}
-                {/* TODO: Add icons and complete API */}
-                {/* <MyText>Facebook</MyText>
-                <MyText>Google</MyText>
-                <MyText>Twitter</MyText> */}
-            {/* </View> */}
         </KeyboardAvoidingView>
     )
 }

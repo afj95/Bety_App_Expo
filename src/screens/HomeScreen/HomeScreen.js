@@ -1,101 +1,102 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import {
   View,
-  FlatList,
-  Animated,
   StyleSheet,
-  Image,
-  Text,
+  FlatList,
+  StatusBar,
+  Platform
 } from "react-native";
 // Components
-import { HomeItem, Header } from "./components";
-// Fake data
-import { homes } from "../../fakeData/";
-import { useSelector } from 'react-redux';
-import MyText from '../../components/UI/MyText';
+import { HomeItem, Header, EmptyComponent } from "./components";
+import Loader from '../../components/Loaders/Loader';
+import { useDispatch, useSelector } from 'react-redux';
+// redux action
+import { getUserHomes } from '../../reducers/home/homesActions';
+import { showMessage } from 'react-native-flash-message';
 
-const {diffClamp} = Animated;
+// const {diffClamp} = Animated;
 const headerHeight = 80 * 2;
 
 export const HomeScreen = ({ navigation }) => {
+  const dispatch = useDispatch()
+
+  const isMounted = useRef(false);
   
   const user = useSelector(state => state?.authReducer?.user);
+  const homes = useSelector(state => state?.homesReducer?.homes);
+  const getHomesLoading = useSelector(state => state?.homesReducer?.getHomesLoading);
+  const error = useSelector(state => state?.homesReducer?.error);
 
-  const translateYNumber = useRef();
-  const scrollY = useRef(new Animated.Value(0));
-  const scrollYClamped = diffClamp(scrollY.current, 0, headerHeight);
+  {
+    /*
+    * These functions and vars for hiding header on scroll
+    * I stopped it cuz can't refresh the list on swipe with <Animated.View />
+    */
 
-  const translateY = scrollYClamped.interpolate({
-    inputRange: [0, 120],
-    outputRange: [0, -70]
-  });
+    // const translateYNumber = useRef();
+    // const scrollY = useRef(new Animated.Value(0));
+    // const scrollYClamped = diffClamp(scrollY.current, 0, headerHeight);
 
-  translateY.addListener(({value}) => {
-    translateYNumber.current = value;
-  });
+    // const translateY = scrollYClamped.interpolate({
+    //   inputRange: [0, 120],
+    //   outputRange: [0, -70]
+    // });
 
-  const handleScroll = Animated.event(
-    [
-      {
-        nativeEvent: {
-          contentOffset: {y: scrollY.current},
-        },
-      },
-    ],
-    {
-      useNativeDriver: true,
-    },
-  );
+    // translateY.addListener(({value}) => {
+    //   translateYNumber.current = value;
+    // });
 
-  // const handleSnap = ({nativeEvent}) => {
-  //   const offsetY = nativeEvent.contentOffset.y;
-  //   if (
-  //     !(
-  //       translateYNumber.current === 0 ||
-  //       translateYNumber.current === -headerHeight / 2
-  //     )
-  //   ) {
-  //     if (ref.current) {
-  //       ref.current.scrollToOffset({
-  //         offset:
-  //           getCloser(translateYNumber.current, -headerHeight / 2, 0) ===
-  //           -headerHeight / 2
-  //             ? offsetY + headerHeight / 2
-  //             : offsetY - headerHeight / 2,
-  //       });
+    // const handleScroll = Animated.event(
+    //   [{ nativeEvent: { contentOffset: {y: scrollY.current} } }],
+    //   { useNativeDriver: true }
+    // );
+  }
+
+  useEffect(() => {
+    if(isMounted.current) {
+      dispatch(getUserHomes())
+    }
+    isMounted.current = false
+  }, [])
+
+  // useEffect(() => {
+  //   if(isMounted.current) {
+  //     if(error === 500) {
+  //       showMessage({
+  //         message: 'server Error',
+  //         type: 'danger',
+  //         duration: 3000
+  //       })
   //     }
   //   }
-  // };
+  //   isMounted.current = false;
+  // }, [error])
 
-  const EmptyComponent = () => (
-    <View style={{ alignItems: 'center', paddingHorizontal: 10 }}>
-      <Text>{user?.username}</Text>
-      <Image source={require('../../assets/images/9073-empty-store-box.gif')}
-        style={{ width: '95%', borderWidth: 0, resizeMode: 'contain' }} />
-    </View>
-  )
+  useEffect(() => {
+    isMounted.current = true;
+  }, []);
 
   return (
     <>
-      <Animated.View style={[styles.header, {transform: [{translateY}]}]}>
+      <View style={styles.header}>
         <Header navigation={navigation} text={'homeScreen'} headerHeight={headerHeight} />
-      </Animated.View>
-      <View style={{ flex: 1, padding: 10, backgroundColor: '#fff' }}>
-        {/* TODO: Get homes from API */}
-        <Animated.FlatList
-          scrollEventThrottle={1}
-          bounces={false}
-          keyExtractor={(item, index) => '#' + index.toString()}
-          key={(item, index) => index.toString()}
-          data={[]}
-          // TODO: Add empty component
-          ListEmptyComponent={EmptyComponent}
-          showsVerticalScrollIndicator={false}
-          ListHeaderComponent={ <View style={{ height: 80 }}/>}
-          // onMomentumScrollEnd={handleSnap}
-          onScroll={handleScroll}
-          renderItem={({ item, index }) => <HomeItem key={index} home={item} />}
-        />
+      </View>
+      <View style={styles.homesContainer}>
+        {/* CRUD API for homes */}
+        {getHomesLoading ? <Loader bg={'#fff'} /> :
+          <FlatList
+            keyExtractor={(item, index) => '#' + index.toString()}
+            data={homes || []}
+            ListEmptyComponent={<EmptyComponent user={user} />}
+            showsVerticalScrollIndicator={false}
+            onRefresh={() => {dispatch(getUserHomes())}}
+            refreshing={getHomesLoading}
+            // ListHeaderComponent={ <View style={{ height: 80 }}/>}
+            // onMomentumScrollEnd={handleSnap}
+            // onScroll={handleScroll}
+            renderItem={({ item, index }) => <HomeItem key={index} home={item} />}
+          />
+        }
       </View>
     </>
   )
@@ -103,13 +104,24 @@ export const HomeScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   header: {
-    position: 'absolute',
+    // marginTop: StatusBar.currentHeight,
     backgroundColor: '#fff',
     borderBottomEndRadius: 10,
     borderBottomStartRadius: 10,
-    left: 0,
-    right: 0,
     width: '100%',
     zIndex: 1,
+    // ...Platform.select({
+    //   android: {
+    //     marginTop: StatusBar.currentHeight
+    //   },
+    //   Ios: {
+    //     marginTop: 22
+    //   }
+    // }),
+  },
+  homesContainer: {
+    flex: 1,
+    padding: 10,
+    backgroundColor: '#fff'
   },
 });

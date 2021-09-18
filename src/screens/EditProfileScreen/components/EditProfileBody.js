@@ -103,7 +103,7 @@ export const EditProfileBody = ({ lang }) => {
                 {/* TODO: User details here */}
                 <EditContainer text={'name'} data={user?.firstName + ' ' + user?.lastName} separator={true} />
                 <EditContainer text={'email'} data={user?.email} separator={true} />
-                <EditContainer text={'password'} data={user?.password} separator={true} hide={true} />
+                {/* <EditContainer text={'password'} data={user?.password} separator={true} hide={true} /> */}
                 <EditContainer text={'language'} data={lang == 'RTL' ? 'العربية' : 'English'} separator={true} />
                 {/* <EditContainer text={'location'} data={user?.location || '-'} separator={false} /> */}
             </View>

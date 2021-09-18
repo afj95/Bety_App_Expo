@@ -48,12 +48,12 @@ const MainStackScreens = () => {
         if(error) {
           console.log(`error`, error)
           setInitialRouteName('Auth')
-        } else if(result) { // In case of there is a token
-          // console.log(`result`, result)
+        } else if(result) { 
+          // In case of there is a token
           if(user && Object.keys(user).length > 0) {
             setInitialRouteName('Home')
           } else {
-            setInitialRouteName('Auth')  
+            setInitialRouteName('Auth')
           }
         } else { // In case of no token founded
           setInitialRouteName('Auth')

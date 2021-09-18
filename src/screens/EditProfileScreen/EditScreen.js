@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import {
     View,
     StyleSheet,
@@ -18,7 +18,7 @@ import { showMessage } from 'react-native-flash-message';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Updates from 'expo-updates';
 
-export default class EditScreen extends React.Component {
+export default class EditScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -28,31 +28,32 @@ export default class EditScreen extends React.Component {
             password: this.props.route.params.data,
             showPass: false,
             ARLang: i18n.dir.toUpperCase() === 'RTL' ? true : false,
-            userLocation: {
-                latitude: 0,
-                longitude: 0,
-            },
+            // userLocation: {
+            //     latitude: 0,
+            //     longitude: 0,
+            // },
         }
     };
 
-    componentDidMount() {
-        navigator.geolocation.getCurrentPosition(
-            position => {
-                this.setState({
-                    userLocation: {
-                        latitude: position.coords.latitude,
-                        longitude: position.coords.longitude
-                    }
-                });
-            },
-            error => alert(error.message),
-            {
-                enableHighAccuracy: true,
-                timeout: 20000,
-                // maximumAge: 1000
-            }
-        );
-    }
+    // componentDidMount() {
+    // Getting user location
+    //     navigator.geolocation.getCurrentPosition(
+    //         position => {
+    //             this.setState({
+    //                 userLocation: {
+    //                     latitude: position.coords.latitude,
+    //                     longitude: position.coords.longitude
+    //                 }
+    //             });
+    //         },
+    //         error => alert(error.message),
+    //         {
+    //             enableHighAccuracy: true,
+    //             timeout: 20000,
+    //             // maximumAge: 1000
+    //         }
+    //     );
+    // }
 
     render() {
         const { text } = this.props.route.params;
@@ -246,10 +247,9 @@ export default class EditScreen extends React.Component {
                                             position: 'bottom',
                                             type: 'info',
                                             color: 'black',
-                                            style: { height: 50, borderRadius: 8, alignItems: 'center' }
+                                            style: { height: 50, borderRadius: 8, alignItems: 'center' },
+                                            titleStyle: { color: 'white' }
                                         })
-                                        // console.log('dir ' + i18n.dir);
-                                        // console.log('ARLang ' + ARLang);
                                     } else {
                                         try {
                                             if(i18n.locale == 'en') {
@@ -274,20 +274,20 @@ export default class EditScreen extends React.Component {
                         }
                     </View>
                 );
-            case 'location':
-                let { userLocation } = this.state;
-                return (
-                    <View style={styles.container}>
-                        <Header text={text} navigation={navigation} />
-                        {userLocation.latitude == 0 ? <Loader /> :
-                            <CustomMap
-                                userLocation={userLocation}
-                                // latitude={latitude}
-                                // longitude={longitude}
-                            />
-                        }
-                    </View>
-                );
+            // case 'location':
+            //     let { userLocation } = this.state;
+            //     return (
+            //         <View style={styles.container}>
+            //             <Header text={text} navigation={navigation} />
+            //             {userLocation.latitude == 0 ? <Loader /> :
+            //                 <CustomMap
+            //                     userLocation={userLocation}
+            //                     // latitude={latitude}
+            //                     // longitude={longitude}
+            //                 />
+            //             }
+            //         </View>
+            //     );
         }
     };
     validate = (text) => {
@@ -310,7 +310,8 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.bg,
         width: '100%',
         height: '100%',
-        alignItems: 'center'
+        alignItems: 'center',
+        paddingHorizontal: 10
     },
     nameContainer: {
         backgroundColor: 'white',

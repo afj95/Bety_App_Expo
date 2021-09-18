@@ -47,6 +47,10 @@
         "serverError": "Some error happened, Please try again later.",
         "loggedinSuccessfully": "Welcome Back..",
         "wrongPassword": "Wrong password!",
-        "notFoundedUser": "You don't have an account!"
+        "notFoundedUser": "You don't have an account!",
+        "deleteHomeTitle": "Deleting home",
+        "deleteHomeMessage": "Ary you sure you want to delete this home ?",
+        "cancel": "Cancel",
+        "yes": "Yes"
     }
 }

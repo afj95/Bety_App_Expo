@@ -86,14 +86,16 @@ export const ProfileBody = ({ navigation }) => {
                     <MyText style={{ textDecorationLine: 'underline', fontWeight: 'bold'}} text={'phone'}/>
                     <MyText text={user?.phoneNumber}/>
                 </View>
-                <View style={styles.detailsContainer}>
+                {/* TODO: Re-Add it */}
+                {/* <View style={styles.detailsContainer}>
                     <MyText style={{ textDecorationLine: 'underline', fontWeight: 'bold'}} text={'password'}/>
                     <MyText hide={true} text={user?.password} />
-                </View>
+                </View> */}
                 <View style={styles.detailsContainer}>
                     <MyText style={{ textDecorationLine: 'underline', fontWeight: 'bold'}} text={'language'}/>
                     <MyText text={i18n.dir.toUpperCase() === 'RTL' ? 'العربية' : 'English'}/>
                 </View>
+                {/* TODO: Re-Add it */}
                 {/* {user?.location &&
                     <View style={styles.detailsContainer}>
                         <MyText style={{ textDecorationLine: 'underline', fontWeight: 'bold'}} text={'location'}/>

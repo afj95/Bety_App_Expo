@@ -67,18 +67,16 @@ export const LoginForm = ({ loginProps: { handleChange, values, errors, handleBl
                     <MyText>forgotPassword</MyText>
                 </TouchableOpacity>
             </View>
-            {authLoading ?
-                <View 
-                    style={styles.loginButton}>
+            <TouchableOpacity
+                style={styles.loginButton}
+                disabled={authLoading}
+                onPress={handleSubmit}>
+                {authLoading ?
                     <ActivityIndicator size={'large'} color={'white'} />
-                </View>
-            :
-                <TouchableOpacity
-                    style={styles.loginButton}
-                    onPress={handleSubmit}>
+                :
                     <MyText style={{ color: 'white', fontSize: 18 }}>login</MyText>
-                </TouchableOpacity>
-            }
+                }
+            </TouchableOpacity>
             <View style={styles.newHere}>
                 <MyText>newHere</MyText>
                 <TouchableOpacity onPress={onRegisterTextPressed}>
