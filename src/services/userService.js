@@ -5,7 +5,7 @@ const changeProfileImageRequest = async (params) => {
         url: 'user/profile/change-profile',
         method: 'put',
         headers: {
-            'Content-Type': 'multipart/form-data; ',
+            'Content-Type': 'multipart/form-data;',
         },
         params: params
     })

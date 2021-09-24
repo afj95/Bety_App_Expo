@@ -10,9 +10,9 @@ import {
 import { HomeItem, Header, EmptyComponent } from "./components";
 import Loader from '../../components/Loaders/Loader';
 import { useDispatch, useSelector } from 'react-redux';
+import { showMessage } from 'react-native-flash-message';
 // redux action
 import { getUserHomes } from '../../reducers/home/homesActions';
-import { showMessage } from 'react-native-flash-message';
 
 // const {diffClamp} = Animated;
 const headerHeight = 80 * 2;
@@ -23,9 +23,9 @@ export const HomeScreen = ({ navigation }) => {
   const isMounted = useRef(false);
   
   const user = useSelector(state => state?.authReducer?.user);
-  const homes = useSelector(state => state?.homesReducer?.homes);
+  const homesList = useSelector(state => state?.homesReducer?.homesList);
   const getHomesLoading = useSelector(state => state?.homesReducer?.getHomesLoading);
-  const error = useSelector(state => state?.homesReducer?.error);
+  const getHomesError = useSelector(state => state?.homesReducer?.getHomesError);
 
   {
     /*
@@ -53,10 +53,9 @@ export const HomeScreen = ({ navigation }) => {
   }
 
   useEffect(() => {
-    if(isMounted.current) {
-      dispatch(getUserHomes())
-    }
-    isMounted.current = false
+    // if(isMounted.current) {}
+    dispatch(getUserHomes())
+    // isMounted.current = false
   }, [])
 
   // useEffect(() => {
@@ -86,15 +85,15 @@ export const HomeScreen = ({ navigation }) => {
         {getHomesLoading ? <Loader bg={'#fff'} /> :
           <FlatList
             keyExtractor={(item, index) => '#' + index.toString()}
-            data={homes || []}
+            data={homesList || []}
             ListEmptyComponent={<EmptyComponent user={user} />}
             showsVerticalScrollIndicator={false}
             onRefresh={() => {dispatch(getUserHomes())}}
             refreshing={getHomesLoading}
-            // ListHeaderComponent={ <View style={{ height: 80 }}/>}
-            // onMomentumScrollEnd={handleSnap}
-            // onScroll={handleScroll}
             renderItem={({ item, index }) => <HomeItem key={index} home={item} />}
+            // ListHeaderComponent={ <View style={{ height: 80 }}
+            // onMomentumScrollEnd={handleSnap}
+            // onScroll={handleScroll} />
           />
         }
       </View>
@@ -104,20 +103,11 @@ export const HomeScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   header: {
-    // marginTop: StatusBar.currentHeight,
     backgroundColor: '#fff',
     borderBottomEndRadius: 10,
     borderBottomStartRadius: 10,
     width: '100%',
     zIndex: 1,
-    // ...Platform.select({
-    //   android: {
-    //     marginTop: StatusBar.currentHeight
-    //   },
-    //   Ios: {
-    //     marginTop: 22
-    //   }
-    // }),
   },
   homesContainer: {
     flex: 1,

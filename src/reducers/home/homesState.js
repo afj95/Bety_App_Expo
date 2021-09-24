@@ -1,9 +1,15 @@
 export const homesState = {
-    homes: [],
-    error: '',
-    
     getHomesLoading: false,
-
+    homesList: [],
+    getHomesError: '',
+    
     addHomeLoading: false,
-    addHomeStatus: ''
+    addHomeStatus: '',
+    addHomeError: '',
+
+    searchMemberLoading: false,
+    searchMemberList: [],
+
+    addMemberLoading: false,
+    addMemberStatus: '',
 };

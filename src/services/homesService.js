@@ -21,8 +21,22 @@ const addHomeRequest = async (name) => {
 
 const deleteHomeRequest = async (homeId) => {
     return await request({
-        url: `home/delete/?homeId=${homeId}`,
+        url: `home/delete?homeId=${homeId}`,
         method: 'post',
+    })
+}
+
+const searchMemberRequest = async (searchValue) => {
+    return await request({
+        url: `home/search?searchValue=${searchValue}`,
+        method: 'get'
+    })
+}
+
+const addMemberRequest = async (id, username) => {
+    return await request({
+        url: `home/addMember?homeId=${id}&username=${username}`,
+        method: 'post'
     })
 }
 
@@ -30,4 +44,6 @@ export {
     getUserHomesRequest,
     addHomeRequest,
     deleteHomeRequest,
+    searchMemberRequest,
+    addMemberRequest
 }

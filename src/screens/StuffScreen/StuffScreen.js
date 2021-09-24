@@ -9,17 +9,12 @@ export const StuffScreen = (params) => {
     const [isLoading, setIsLoading] = useState(false);
     return (
         <>
-            {/* <Header
-                navigation={params.navigation}
-                name={params.route.params.home}
-            /> */}
             <MainHeader
                 navigation={params.navigation}
-                text={params.route.params.home}
+                text={params?.route?.params?.name}
                 showGoBackButton={true}
             />
             <Body />
-            <View style={{ marginTop: 5 }} />
             <Footer isLoading={isLoading} setIsLoading={setIsLoading} />
         </>
     )

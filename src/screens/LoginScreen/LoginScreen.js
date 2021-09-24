@@ -48,7 +48,6 @@ export const LoginScreen = ({ navigation }) => {
                     type: 'danger',
                     duration: 800
                 })
-                dispatch(resetAuth());
             break;
             case 404:
                 showMessage({
@@ -57,7 +56,6 @@ export const LoginScreen = ({ navigation }) => {
                     type: 'danger',
                     duration: 800
                 })
-                dispatch(resetAuth());
             break;
             case 500:
                 showMessage({
@@ -66,7 +64,6 @@ export const LoginScreen = ({ navigation }) => {
                     type: 'danger',
                     duration: 500
                 })
-                dispatch(resetAuth());
                 break;
             }
         dispatch(resetAuth());

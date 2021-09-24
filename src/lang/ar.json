@@ -24,8 +24,8 @@
         "en": "English",
         "deleteHome": "حذف هذا المنزل",
         "deleteDesc": "إزالة هذا المنزل من قائمة منازلي",
-        "homeInfo": "إظهار معلومات المنزل",
-        "infoDesc": "عرض جميع تفاصيل المنزل",
+        "addmemberToHome": "إضافة صديق الى المنزل",
+        "addMemberInfoDesc": "إضافة صديق آخر الى منزلك",
         "noChanges": "لا يوجد تغييرات",
         "required": "هذا الحقل الزامي",
         "welcomeBack": "مرحبا بك مجددًا",
@@ -51,6 +51,7 @@
         "deleteHomeTitle": "حذف منزل",
         "deleteHomeMessage": "هل أنت متأكد من حذف هذا المنزل من القائمة ؟",
         "cancel": "إلغاء",
-        "yes": "نعم"
-    }
+        "yes": "نعم",
+        "addedMemberSuccessfully": "تمت الإضافة"
+    } 
 }

@@ -10,7 +10,7 @@ export const request = async ({ url, method, params, headers }) => {
     return new Promise((resolve, reject) => {
       const timeoutId = setTimeout(() => {
         reject(new Error("Timeout, Server is not responding"));
-      }, 2000); // After 5 seconds will stop the request
+      }, 5000); // After 5 seconds will stop the request
 
       let modfiedHeaders = {
         ...headers,

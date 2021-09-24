@@ -24,8 +24,8 @@
         "en": "English",
         "deleteHome": "Delete this home",
         "deleteDesc": "You can't undo this action",
-        "homeInfo": "Show home info",
-        "infoDesc": "Show the home details",
+        "addmemberToHome": "Add member to this home",
+        "addMemberInfoDesc": "Add new partner to your home",
         "noChanges": "No changes",
         "required": "This field is required",
         "welcomeBack": "Welcome Back",
@@ -51,6 +51,7 @@
         "deleteHomeTitle": "Deleting home",
         "deleteHomeMessage": "Ary you sure you want to delete this home ?",
         "cancel": "Cancel",
-        "yes": "Yes"
+        "yes": "Yes",
+        "addedMemberSuccessfully": "Member added successfully"
     }
 }

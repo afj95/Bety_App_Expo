@@ -5,6 +5,7 @@ import { AntDesign } from '@expo/vector-icons';
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import MyText from '../components/UI/MyText';
 // Screens
 import { HomeScreen } from '../screens/HomeScreen';
 import { ProfileScreen } from '../screens/ProfileScreen';
@@ -13,7 +14,7 @@ import { EditProfileScreen } from '../screens/EditProfileScreen';
 import { LoginScreen } from '../screens/LoginScreen';
 import { RegisterScreen } from '../screens/RegisterScreen';
 import EditScreen from '../screens/EditProfileScreen/EditScreen';
-import MyText from '../components/UI/MyText';
+import { AddMemberScreen } from '../screens/AddMemberScreen';
 
 const AuthStack = createStackNavigator();
 export const AuthStackScreens = () => (
@@ -57,6 +58,7 @@ export const HomeStackScreen = () => (
     }}>
     <HomeStack.Screen name='Home' component={TabScreen} />
     <HomeStack.Screen name="Stuff" component={StuffStuckScreen} />
+    <HomeStack.Screen name="AddMember" component={AddMemberScreen} />
   </HomeStack.Navigator>
 );
 

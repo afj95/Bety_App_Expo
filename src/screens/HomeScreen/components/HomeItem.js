@@ -1,4 +1,7 @@
-import React, { useState, useRef } from 'react'
+// TODO: 
+// Change styles
+
+import React, { useRef } from 'react'
 import {
     StyleSheet,
     View,
@@ -25,8 +28,17 @@ export const HomeItem = ({ home }) => {
     const dispatch = useDispatch();
     const _modalizeRef = useRef(null);
     
+    const _openModal = () => _modalizeRef.current?.open();
+
+    const _addMemberToHome = () => {
+        // navigate to add member screen
+        navigate('AddMember', {id: home?._id})
+        _modalizeRef.current?.close();
+    }
+
     const _deleteHome = () => {
-        Alert.alert(t('deleteHomeTitle'), t('deleteHomeMessage'), [
+        Alert.alert(t('deleteHomeTitle'), t('deleteHomeMessage'),
+        [
             {
                 style: 'cancel',
                 text: t('cancel')
@@ -35,38 +47,35 @@ export const HomeItem = ({ home }) => {
                 text: t('yes'),
                 onPress: () => {
                     dispatch(deleteHome(home?._id))
-                    _modalizeRef.current?.close();
                 }
             }
         ])
     }
 
-    const _openModal = () => _modalizeRef.current?.open();
-
     return (
-        <TouchableOpacity disabled style={styles.itemContainer}
+        <TouchableOpacity style={styles.itemContainer}
             onPress={() => navigate('Stuff', {
                 screen: "StuffScreen",
                 params: {
-                    home: home.name
+                    name: home.name
                 }
             })}>
             <View style={styles.nameContainer}>
                 <Entypo
                     name={'dots-three-vertical'}
                     size={15}
-                    style={{ padding: 5 }}
+                    style={{ padding: 10 }}
                     onPress={_openModal}
                 />
                 <Portal>
                     <Modalize ref={_modalizeRef} modalHeight={height - (height / 1.5)} snapPoint={height - (height / 1.5)}>
                         <View style={styles.centeredView}>
-                            <TouchableOpacity style={styles.optionContainer} onPress={() => alert(home.name)} >
-                                <MyText text={'homeInfo'} />
-                                <MyText text={'infoDesc'} style={{ color: 'gray', fontSize: 10 }} />
+                            <TouchableOpacity style={styles.optionContainer} onPress={() => _addMemberToHome()} >
+                                <MyText text={'addmemberToHome'} />
+                                <MyText text={'addMemberInfoDesc'} style={{ color: 'gray', fontSize: 10 }} />
                             </TouchableOpacity>
                             <View style={{ width: '100%', alignItems: 'center' }}>
-                                <View style={{ width: '95%', height: 1, backgroundColor: '#cdcdcd' }} />
+                                <View style={{ width: '95%', height: 0.5, backgroundColor: '#cdcdcd' }} />
                             </View>
                             <TouchableOpacity style={styles.optionContainer} onPress={_deleteHome}>
                                 <MyText text={'deleteHome'} style={{ color: 'red' }} />
@@ -140,15 +149,8 @@ const styles = StyleSheet.create({
         height: height - (height / 1.5),
         // justifyContent: "center",
     },
-    modalView: {
-        height: '20%',
-        width: '100%',
-        backgroundColor: "white",
-        borderTopEndRadius: 8,
-        borderTopStartRadius: 8,
-    },
     optionContainer: {
-        height: '30%',
+        height: '50%',
         marginBottom: 5,
         justifyContent: 'center',
         paddingHorizontal: 10

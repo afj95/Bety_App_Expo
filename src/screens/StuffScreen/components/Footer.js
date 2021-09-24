@@ -5,7 +5,9 @@ import {
     TextInput,
     TouchableOpacity,
     Keyboard,
-    ActivityIndicator
+    ActivityIndicator,
+    KeyboardAvoidingView,
+    Platform
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -36,24 +38,26 @@ export const Footer = ({ isLoading, setIsLoading }) => {
     }
 
     return (
-        <View style={styles.textInputContainer}>
-            <TextInput
-                ref={ref => textInputRef = ref}
-                style={styles.textInput}
-                onChangeText={text => onChangeText(text)}
-                placeholder={'Add item you want to buy...'}
-                onSubmitEditing={Keyboard.dismiss}
-                value={value}
-                editable={!isLoading}
-            />
-            <TouchableOpacity style={styles.addStuff} onPress={() => _addNewItem() }>
-                {isLoading ?
-                <ActivityIndicator size={'small'} color={'white'} />
-                :
-                <Ionicons name={'add'} size={30} color={'#fff'} />
-                }
-            </TouchableOpacity>
-        </View>
+        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+            <View style={styles.textInputContainer}>
+                <TextInput
+                    ref={ref => textInputRef = ref}
+                    style={styles.textInput}
+                    onChangeText={text => onChangeText(text)}
+                    placeholder={'Add item you want to buy...'}
+                    onSubmitEditing={Keyboard.dismiss}
+                    value={value}
+                    editable={!isLoading}
+                />
+                <TouchableOpacity style={styles.addStuff} onPress={() => _addNewItem() }>
+                    {isLoading ?
+                        <ActivityIndicator size={'small'} color={'white'} />
+                    :
+                        <Ionicons name={'add'} size={30} color={'#fff'} />
+                    }
+                </TouchableOpacity>
+            </View>
+        </KeyboardAvoidingView>
     )
 }
 
@@ -74,6 +78,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         paddingVertical: 5,
         width: '90%',
+        height: 40,
         borderWidth: 1,
         borderColor: '#ddd',
         backgroundColor: '#fff'
