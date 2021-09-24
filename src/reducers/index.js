@@ -1,2 +1,1 @@
-export * from "./mainReducer";
-export * from "./homesReducer";
+export * from './store';

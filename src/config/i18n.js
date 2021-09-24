@@ -1,5 +1,3 @@
-export const fallback = "ar";
-
 export const supportedLocales = {
     en: {
         name: "English",

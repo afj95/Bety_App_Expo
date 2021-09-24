@@ -6,6 +6,6 @@ export function navigate(name, params) {
   navigationRef.current?.navigate(name, params);
 }
 
-export const goBack = () => {
+export function goBack() {
   navigationRef.current?.goBack();
 }

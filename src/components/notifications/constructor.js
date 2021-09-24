@@ -63,7 +63,7 @@ import { Text, View, Button, Platform } from 'react-native';
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
-    shouldShowAlert: true,
+    shouldShowAlert: false,
     shouldPlaySound: false,
     shouldSetBadge: false,
   }),
@@ -90,7 +90,7 @@ export default function NotificationsConstructor() {
       Notifications.removeNotificationSubscription(notificationListener.current);
       Notifications.removeNotificationSubscription(responseListener.current);
     };
-  }, []);
+  });
 
   return <></>
 
@@ -118,7 +118,7 @@ export default function NotificationsConstructor() {
       Notifications.setNotificationChannelAsync('default', {
         name: 'default',
         importance: Notifications.AndroidImportance.DEFAULT,
-        sound: null,
+        sound: false,
         enableVibrate: false
       });
     }
@@ -133,7 +133,7 @@ export async function schedulePushNotification() {
       title: "You've got mail! 📬",
       body: 'Here is the notification body',
       data: { data: 'goes here' },
-      sound: false,
+      sound: true,
       vibrate: 0,
     },
     trigger: { seconds: 1 },

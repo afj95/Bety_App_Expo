@@ -1,22 +1,24 @@
-import React from 'react'
+import React, { Component } from 'react'
 import {
     View,
     StyleSheet,
     TouchableOpacity,
     ActivityIndicator,
+    I18nManager,
 } from 'react-native';
 // main components
-import CustomText from '../../components/UI/CustomText';
+import MyText from '../../components/UI/MyText';
 import Loader from '../../components/Loaders/Loader';
 import { TextInput } from 'react-native-paper';
 import Colors from '../../utils/Colors';
-import { t } from '../../i18next';
+import i18n, { t } from '../../i18next';
 import { Entypo, MaterialIcons, Fontisto } from '@expo/vector-icons';
 import { Header, CustomMap } from './components';
 import { showMessage } from 'react-native-flash-message';
-// import MapView, { Marker } from 'react-native-maps';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as Updates from 'expo-updates';
 
-export default class EditScreen extends React.Component {
+export default class EditScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -25,28 +27,33 @@ export default class EditScreen extends React.Component {
             email: this.props.route.params.data,
             password: this.props.route.params.data,
             showPass: false,
-            ARLang: false, // language
-            latitude: 0,
-            longitude: 0,
+            ARLang: i18n.dir.toUpperCase() === 'RTL' ? true : false,
+            // userLocation: {
+            //     latitude: 0,
+            //     longitude: 0,
+            // },
         }
     };
 
-    componentDidMount() {
-        navigator.geolocation.getCurrentPosition(
-            position => {
-                this.setState({
-                    latitude: position.coords.latitude,
-                    longitude: position.coords.longitude
-                });
-            },
-            error => alert(error.message),
-            {
-                enableHighAccuracy: true,
-                timeout: 20000,
-                // maximumAge: 1000
-            }
-        );
-    }
+    // componentDidMount() {
+    // Getting user location
+    //     navigator.geolocation.getCurrentPosition(
+    //         position => {
+    //             this.setState({
+    //                 userLocation: {
+    //                     latitude: position.coords.latitude,
+    //                     longitude: position.coords.longitude
+    //                 }
+    //             });
+    //         },
+    //         error => alert(error.message),
+    //         {
+    //             enableHighAccuracy: true,
+    //             timeout: 20000,
+    //             // maximumAge: 1000
+    //         }
+    //     );
+    // }
 
     render() {
         const { text } = this.props.route.params;
@@ -54,7 +61,6 @@ export default class EditScreen extends React.Component {
         const { name, isLoading } = this.state;
         switch(text) {
             case 'name':
-                const { modalVisible } = this.state;
                 return (
                     <View style={styles.container}>
                         <Header text={text} navigation={navigation} />
@@ -74,7 +80,7 @@ export default class EditScreen extends React.Component {
                                 :
                                 <MaterialIcons size={15} name={'verified'} color={'green'} />
                                 }
-                                <CustomText
+                                <MyText
                                     text={'nameGuide'}
                                     style={{ marginHorizontal: 10, color: name.length < 3 || name.length > 12 ? 'gray' : 'green', marginTop: 0 }}
                                 />
@@ -100,7 +106,7 @@ export default class EditScreen extends React.Component {
                                         }, 500)
                                     }, 2000)
                                 }}>
-                                <CustomText text={'updateName'} style={{ color: 'white', fontSize: 20 }} />
+                                <MyText text={'updateName'} style={{ color: 'white', fontSize: 20 }} />
                             </TouchableOpacity>
                         :
                             <View
@@ -147,7 +153,7 @@ export default class EditScreen extends React.Component {
                                         }, 500)
                                     }, 2000)
                                 }}>
-                                <CustomText text={'updateEmail'} style={{ color: 'white', fontSize: 20 }} />
+                                <MyText text={'updateEmail'} style={{ color: 'white', fontSize: 20 }} />
                             </TouchableOpacity>
                         :
                             <View
@@ -171,7 +177,6 @@ export default class EditScreen extends React.Component {
                                 onChangeText={(text) => this.setState({ password: text })}
                                 value={password}
                                 secureTextEntry={!showPass}
-                                show
                                 editable={isLoading ? false : true}
                                 right={
                                     <TextInput.Icon
@@ -200,7 +205,7 @@ export default class EditScreen extends React.Component {
                                         }, 500)
                                     }, 2000)
                                 }}>
-                                <CustomText text={'updatePass'} style={{ color: 'white', fontSize: 20 }} />
+                                <MyText text={'updatePass'} style={{ color: 'white', fontSize: 20 }} />
                             </TouchableOpacity>
                         :
                             <View
@@ -218,59 +223,75 @@ export default class EditScreen extends React.Component {
                         <View style={{...styles.nameContainer, alignItems: 'flex-start' }}>
                             <TouchableOpacity onPress={() => { this.setState({ ARLang: false }) }} style={{ paddingVertical: 10, borderRadius: 8, alignItems: 'center', flexDirection: 'row', backgroundColor: !ARLang ? '#f2f2f2' : '#fff', width: '100%' }}>
                                 { !ARLang ? <Fontisto name={'checkbox-active'} style={{ marginHorizontal: 5 }} size={15} /> : <Fontisto name={'checkbox-passive'} style={{ marginHorizontal: 5 }} size={15} /> }
-                                <CustomText text={'en'} style={{ marginStart: 10}} />
+                                <MyText text={'en'} style={{ marginStart: 10}} />
                             </TouchableOpacity>
                             <TouchableOpacity onPress={() => { this.setState({ ARLang: true }) }} style={{ marginTop: 10, paddingVertical: 10, borderRadius: 8, alignItems: 'center', flexDirection: 'row', width: '100%', backgroundColor: ARLang ? '#f2f2f2' : '#fff' }}>
                                 { ARLang ? <Fontisto name={'checkbox-active'} style={{ marginHorizontal: 5 }} size={15} /> : <Fontisto name={'checkbox-passive'} style={{ marginHorizontal: 5 }} size={15} /> }
-                                <CustomText text={'ar'} style={{ marginStart: 10}} />
+                                <MyText text={'ar'} style={{ marginStart: 10}} />
                             </TouchableOpacity>
                         </View>
-                        {!isLoading ?
-                            <TouchableOpacity
-                                style={{ width: '100%', justifyContent: 'center', alignItems: 'center', backgroundColor: 'black', height: 50, marginTop: 20, borderRadius: 8 }}
-                                onPress={() => {
-                                    this.setState({ isLoading: !isLoading })
-                                    setTimeout(() => {
-                                        this.setState({ isLoading: false });
-                                        showMessage({
-                                            message: t('app:langUpdated'),
-                                            style: { height: 50 },
-                                            type: 'success',
-                                            position: 'bottom',
-                                            duration: 800,
-                                            hideOnPress: true,
-                                        });
-                                        setTimeout(() => {
-                                            navigation.goBack();
-                                        }, 500)
-                                    }, 2000)
-                                }}>
-                                <CustomText text={'updateLang'} style={{ color: 'white', fontSize: 20 }} />
-                            </TouchableOpacity>
-                        :
+                        {isLoading ?
                             <View
                                 style={{ width: '100%', justifyContent: 'center', alignItems: 'center', backgroundColor: 'black', height: 50, marginTop: 20, borderRadius: 8 }}>
                                 <ActivityIndicator size={'large'} color={'white'} />
                             </View>
+                        :
+                            <TouchableOpacity
+                                style={{ width: '100%', justifyContent: 'center', alignItems: 'center', backgroundColor: 'black', height: 50, marginTop: 20, borderRadius: 8 }}
+                                onPress={async () => {
+                                    if((i18n.dir === 'RTL' && ARLang) || (i18n.dir !== 'RTL' && !ARLang)) {
+                                        // No changes
+                                        showMessage({
+                                            message: t('noChanges'),
+                                            duration: 600,
+                                            position: 'bottom',
+                                            type: 'info',
+                                            color: 'black',
+                                            style: { height: 50, borderRadius: 8, alignItems: 'center' },
+                                            titleStyle: { color: 'white' }
+                                        })
+                                    } else {
+                                        try {
+                                            if(i18n.locale == 'en') {
+                                                await AsyncStorage.setItem('lang', 'ar')
+                                                console.log('stored - ar')
+                                                i18n.changeLanguage('ar');
+                                                I18nManager.forceRTL(true);
+                                            } else {
+                                                await AsyncStorage.setItem('lang', 'en')
+                                                console.log('stored - en')
+                                                i18n.changeLanguage('en');
+                                                I18nManager.forceRTL(false);
+                                            }
+                                        } catch(e) {
+                                            console.log('error while storing in async ' + e)
+                                        }
+                                        await Updates.reloadAsync();
+                                    }
+                                }}>
+                                <MyText text={'updateLang'} style={{ color: 'white', fontSize: 20 }} />
+                            </TouchableOpacity>
                         }
                     </View>
                 );
-            case 'location':
-                let { latitude, longitude } = this.state;
-                return (
-                    <View style={styles.container}>
-                        <Header text={text} navigation={navigation} />
-                        {latitude == 0 ? <Loader /> :
-                            <CustomMap
-                                latitude={latitude}
-                                longitude={longitude}
-                            />
-                        }
-                    </View>
-                );
+            // case 'location':
+            //     let { userLocation } = this.state;
+            //     return (
+            //         <View style={styles.container}>
+            //             <Header text={text} navigation={navigation} />
+            //             {userLocation.latitude == 0 ? <Loader /> :
+            //                 <CustomMap
+            //                     userLocation={userLocation}
+            //                     // latitude={latitude}
+            //                     // longitude={longitude}
+            //                 />
+            //             }
+            //         </View>
+            //     );
         }
     };
     validate = (text) => {
+        // Validating is this email or not
         let reg = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
         if (reg.test(text) === false) {
           console.log("Email is Not Correct");
@@ -289,7 +310,8 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.bg,
         width: '100%',
         height: '100%',
-        alignItems: 'center'
+        alignItems: 'center',
+        paddingHorizontal: 10
     },
     nameContainer: {
         backgroundColor: 'white',

@@ -1,19 +1,33 @@
 import React from 'react'
 import { View } from 'react-native';
-import { Header } from "../../components/UI/Header";
-import Colors from '../../utils/Colors';
+import { MainHeader } from "../../components/UI/MainHeader";
 // Components
-import { Body } from './components';
+import { EditProfileBody } from './components';
+// import { MyModal } from './components/MyModal';
 
-export const EditProfileScreen = ({ navigation }) => {
+export const EditProfileScreen = (props) => {
+    // const [modalVisible, setModalVisible] = React.useState(false);
+
     return (
         <View style={{ height: '100%', backgroundColor: '#fff' }}>
-            <Header
-                navigation={navigation}
+            <MainHeader
+                navigation={props.navigation}
                 text={'editProfile'}
                 showGoBackButton={true}
             />
-            <Body />
+            <EditProfileBody
+                lang={props.route.params.lang}
+                user={props.route.params.user}
+            />
+
+            {/* Testing modal with animation fade and slide */}
+            {/* <TouchableOpacity
+                    style={{ padding: 20, backgroundColor: 'red', position: 'absolute', top: 100 }}
+                    onPress={() => setModalVisible(!modalVisible)}>
+                    <MyText>show modal</MyText>
+                </TouchableOpacity>
+            <MyModal modalVisible={modalVisible} setModalVisible={setModalVisible} /> */}
+
         </View>
     );
 };

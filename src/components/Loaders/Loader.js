@@ -12,7 +12,7 @@ const Loader = (props) => {
         flex: 1,
         width,
         height: props.height || height,
-        // backgroundColor: props.bg || "rgba(128, 129, 130, 0.2)",
+        backgroundColor: props.bg || "rgba(128, 129, 130, 0.2)",
         zIndex: 1001,
         justifyContent: "center",
       }}

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { View } from 'react-native';
-import { Header } from '../../components/UI/Header';
+import { MainHeader } from '../../components/UI/MainHeader';
 // components
 import { Body, Footer } from "./components";
 
@@ -9,17 +9,12 @@ export const StuffScreen = (params) => {
     const [isLoading, setIsLoading] = useState(false);
     return (
         <>
-            {/* <Header
+            <MainHeader
                 navigation={params.navigation}
-                name={params.route.params.home}
-            /> */}
-            <Header
-                navigation={params.navigation}
-                text={params.route.params.home}
+                text={params?.route?.params?.name}
                 showGoBackButton={true}
             />
             <Body />
-            <View style={{ marginTop: 5 }} />
             <Footer isLoading={isLoading} setIsLoading={setIsLoading} />
         </>
     )

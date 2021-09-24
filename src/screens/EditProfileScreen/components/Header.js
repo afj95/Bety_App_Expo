@@ -5,7 +5,7 @@ import {
     TouchableOpacity,
     Dimensions
 } from 'react-native';
-import CustomText from '../../../components/UI/CustomText';
+import MyText from '../../../components/UI/MyText';
 import { AntDesign } from '@expo/vector-icons';
 import i18n from '../../../i18next';
 
@@ -17,7 +17,7 @@ export const Header = ({ text, navigation }) => {
             <TouchableOpacity onPress={() => navigation.goBack()}>
                 <AntDesign name={i18n.locale === 'en' ? 'arrowleft' : 'arrowright'} size={25} color={'black'} />
             </TouchableOpacity>
-            <CustomText text={text} style={{ fontSize: 25, }} />
+            <MyText text={text} style={{ fontSize: 25, }} />
             <View/>
         </View>
     );

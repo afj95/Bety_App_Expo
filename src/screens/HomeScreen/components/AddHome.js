@@ -3,7 +3,6 @@ import {
     StyleSheet,
     View,
     Dimensions,
-    TextInput,
     ActivityIndicator,
 } from 'react-native';
 // used this library the native library doesn't handle press
@@ -12,18 +11,55 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Portal } from "react-native-portalize";
 import { Modalize } from "react-native-modalize";
 import { Ionicons, AntDesign } from "@expo/vector-icons";
-import CustomText from '../../../components/UI/CustomText';
+import MyText from '../../../components/UI/MyText';
 import Colors from '../../../utils/Colors';
-import { showMessage } from 'react-native-flash-message';
+import { TextInput } from 'react-native-paper';
 import { t } from '../../../i18next';
+import { useDispatch, useSelector } from 'react-redux';
+import { addNewHome } from '../../../reducers/home/homesActions';
+import { showMessage } from 'react-native-flash-message';
 
 const { width, height } = Dimensions.get("window");
 
 export const AddHome = () => {
+    const dispatch = useDispatch();
+    const _inputRef = useRef();
+    const isMounted = useRef(false);
+
+    const addHomeLoading = useSelector(state => state?.homesReducer?.addHomeLoading);
+    const addHomeStatus = useSelector(state => state?.homesReducer?.addHomeStatus);
+    // console.log(addHomeStatus)
+
+    // useEffect(() => {
+    //     // if (isMounted.current) {
+    //       if(isMounted.current) {
+    //         switch(addHomeStatus) {
+    //             case 201: {
+    //                 showMessage({
+    //                     message: 'Added successfully',
+    //                     type: 'success',
+    //                     duration: 800,
+    //                 })
+    //             }
+    //         }
+    //         isMounted.current = false
+    //       } else {
+    //         showMessage({
+    //             message: 'Not Added!',
+    //             type: 'danger',
+    //             duration: 800,
+    //         })
+    //       }
+
+    //     // }
+    //   }, [addHomeStatus]);
+
+    // useEffect(() => {
+    //     isMounted.current = true;
+    //   }, []);
+
     const modalizeRef = useRef(null);
-    let textInputRef = useRef(null);
-    const [value, onChangeText] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
+    const [value, setValue] = useState('');
     const [error, setError] = useState(value !== '');
 
     const _onOpen = () => {
@@ -32,79 +68,63 @@ export const AddHome = () => {
 
     const _onClosed = () => {
         // cleaning functions
-        onChangeText('');
+        setValue('');
         setError(false);
     };
 
-    const _addNewHome = () => {
+    const onChangeText = text => setValue(text) 
+    
+    const _addNewHome = async () => {
         if(value === '') {
             setError(true);
         } else {
-            // backend simulation
-            // TODO: dispath redux
-            const homeName = value;
             // cleaning functions
-            onChangeText('');
             setError(false)
-            // starting of sending data
-            setIsLoading(true);
-            setTimeout(() => {
-                setIsLoading(false);
-                modalizeRef.current?.close();
-                setTimeout(() => {
-                    showMessage({
-                        message: 'Added home sucessfully',
-                        type: 'success',
-                        duration: 1000,
-                        style:{ borderBottomRightRadius: 8, borderBottomLeftRadius: 8 }
-                    })
-                }, 110)
-            }, 1000)
+            await dispatch(addNewHome(value))
+            modalizeRef.current?.close();
         }
     };
 
     return (
         <>
-            <TouchableOpacity onPress={_onOpen} style={{ alignItems: 'center', justifyContent: 'space-around' }}>
+            <TouchableOpacity onPress={_onOpen} style={styles.showModalButton}>
                 <Ionicons name={'md-add-circle'} size={22} color={Colors.buttons} />
-                <CustomText text={'addHome'} style={{ fontSize: 9, color: Colors.text }}  />
+                <MyText text={'addHome'} style={styles.showModalText}  />
             </TouchableOpacity>
             <Portal>
-                <Modalize onClosed={_onClosed} ref={modalizeRef} snapPoint={height - (height / 3)} >
+                <Modalize onClosed={_onClosed} modalHeight={height - (height / 3)} ref={modalizeRef} snapPoint={height - (height / 3)}>
                     <View style={styles.container}>
                         <View>
-                            <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
-                                <CustomText text={'Add home name:'} />
-                                {isLoading ?
+                            <View style={styles.closeIcon}>
+                                {/* <MyText text={'Add home name:'} /> */}
+                                <Ionicons name={'md-add-circle'} size={22} color={Colors.buttons} onPress={_addNewHome} />
+                                {addHomeLoading ?
                                     <ActivityIndicator size={'small'} color={'black'} />
                                 :
-                                    <TouchableOpacity onPress={() => modalizeRef.current?.close()}>
-                                        <AntDesign name={'close'} size={20} />
-                                    </TouchableOpacity>
+                                    <AntDesign name={'close'} size={20} onPress={() => modalizeRef.current?.close()} />
                                 }
                             </View>
                             <TextInput
-                                ref={ref => textInputRef = ref}
-                                style={{...styles.textInput, backgroundColor: isLoading ? '#cfcfcf' : 'white', borderColor: error ? 'red' : 'black', borderWidth: error ? 1 : 0.5}}
-                                onChangeText={text => { setError(false); onChangeText(text);}}
+                                ref={_inputRef}
+                                style={styles.textInput(addHomeLoading, error)}
                                 placeholder={'Home name'}
+                                mode={'flat'}
+                                onChangeText={onChangeText}
+                                error={error}
                                 returnKeyType={'done'}
-                                value={value}
-                                editable={!isLoading}
                                 onSubmitEditing={_addNewHome}
+                                theme={{ colors: { error: '#B22323', primary: '#595959' }, roundness: 12 }}
                             />
                             {/* Error message will be shown if TextInput is empty */}
-                            {error ? <CustomText text={'Home name should not be an empty string'} style={styles.errorMessage} /> : null}
+                            {error ? <MyText text={'Home name should not be an empty string'} style={styles.errorMessage} /> : null}
                             {/* TODO: add members to the home */}
                             <View style={{ alignItems: 'center' }}>
-                                <CustomText
-                                    style={{ textAlign: 'center', marginTop: 10, color: 'gray', fontSize: 12 }}
-                                    text={'Add home name\nyou want to show in your homes list'} />
+                                <MyText
+                                    style={styles.helpMessageText}
+                                    text={'Add home name\nyou want to show in your homes list'}
+                                />
                             </View>
                         </View>
-                        <TouchableOpacity disabled={isLoading} onPress={_addNewHome} style={styles.submit}>
-                            <CustomText style={{ color: 'white', fontSize: 22 }} text={'Add new home'} />
-                        </TouchableOpacity>
                     </View>
                 </Modalize>
             </Portal>
@@ -120,11 +140,34 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         justifyContent: 'space-between'
     },
-    textInput: {
-        borderWidth: 0.5,
-        padding: 5,
+    showModalButton: {
+        alignItems: 'center',
+        justifyContent: 'space-around'
+    },
+    showModalText: {
+        fontSize: 9,
+        color: Colors.text
+    },
+    closeIcon: {
+        flexDirection: 'row',
+        justifyContent: 'space-between'
+    },
+    textInput: (addHomeLoading, error) => ({
+        borderbottomWidth: error ? 1 : null,
         marginVertical: 5,
-        borderRadius: 8,
+        borderRadius: 12,
+        backgroundColor: addHomeLoading ? '#cfcfcf' : 'white',
+        borderColor: error ? 'red' : 'black',
+    }),
+    helpMessageText: {
+        textAlign: 'center',
+        marginTop: 10,
+        color: 'gray',
+        fontSize: 12,
+    },
+    addHomeText: {
+        color: 'white',
+        fontSize: 22
     },
     errorMessage: {
         color: 'red',
@@ -138,6 +181,6 @@ const styles = StyleSheet.create({
         padding: 5,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: Colors.buttons
+        backgroundColor: Colors.buttons,
     }
 })
